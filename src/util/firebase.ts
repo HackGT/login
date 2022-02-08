@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 
 export const app = initializeApp({
-  apiKey: "AIzaSyAHzYn49GZ79BbcXGBEmcEP8PADSNsCSDk",
-  authDomain: "hackgt-cluster.firebaseapp.com",
+  apiKey: "AIzaSyCsukUZtMkI5FD_etGfefO4Sr7fHkZM7Rg",
+  authDomain: "hexlabs-cloud.firebaseapp.com",
 });
