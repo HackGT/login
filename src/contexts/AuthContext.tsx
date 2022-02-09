@@ -1,4 +1,4 @@
-import React, { useContext, createContext } from "react";
+import React, { useContext, createContext, useState } from "react";
 import {
   getAuth,
   onAuthStateChanged,
@@ -8,7 +8,13 @@ import { app } from "../util/firebase";
 
 export type User = FirebaseUser | null;
 
-const AuthContext = createContext<User | undefined>(undefined);
+const initialState = {
+  user: undefined,
+  loading: true,
+};
+
+const AuthContext =
+  createContext<{ user: User | undefined; loading: boolean }>(initialState);
 const auth = getAuth(app);
 
 export function useAuth() {
@@ -16,19 +22,25 @@ export function useAuth() {
 }
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = React.useState<User>(null);
+  const [user, setUser] = useState<User>(null);
+  const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       console.log("AUTH STATE CHANGED!");
       console.log(firebaseUser);
       setUser(firebaseUser);
+      setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthProvider };

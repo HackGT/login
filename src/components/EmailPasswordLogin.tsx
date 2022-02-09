@@ -11,11 +11,13 @@ import {
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { app } from "../util/firebase";
 
 const auth = getAuth(app);
 
 const EmailPasswordLogin: React.FC = () => {
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -27,7 +29,7 @@ const EmailPasswordLogin: React.FC = () => {
 
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
-        console.log(userCredential);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);

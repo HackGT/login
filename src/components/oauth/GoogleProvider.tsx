@@ -1,5 +1,6 @@
 import { Button, createIcon, VisuallyHidden } from "@chakra-ui/react";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { app } from "../../util/firebase";
 
 const GoogleIcon = createIcon({
@@ -29,12 +30,13 @@ const GoogleIcon = createIcon({
 const auth = getAuth(app);
 
 const GoogleProvider: React.FC = () => {
+  const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
 
   const login = () => {
     signInWithPopup(auth, provider)
       .then((userCredential) => {
-        console.log(userCredential);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);

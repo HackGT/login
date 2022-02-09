@@ -1,5 +1,6 @@
 import { Button, createIcon, VisuallyHidden } from "@chakra-ui/react";
 import { getAuth, GithubAuthProvider, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { app } from "../../util/firebase";
 
 const GitHubIcon = createIcon({
@@ -15,12 +16,13 @@ const GitHubIcon = createIcon({
 const auth = getAuth(app);
 
 const GitHubProvider: React.FC = () => {
+  const navigate = useNavigate();
   const provider = new GithubAuthProvider();
 
   const login = () => {
     signInWithPopup(auth, provider)
       .then((userCredential) => {
-        console.log(userCredential);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
