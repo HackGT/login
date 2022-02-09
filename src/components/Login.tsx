@@ -31,17 +31,14 @@ const Login: React.FC = () => {
       <Stack spacing="8">
         <Stack spacing="6">
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
-            <Heading size="md">Log in to your account</Heading>
-            <HStack spacing="1" justify="center">
-              <Text>Don't have an account?</Text>
-              <Button variant="link" colorScheme="blue">
-                Sign up
-              </Button>
-            </HStack>
+            <Heading size="lg">Log in to your account</Heading>
           </Stack>
         </Stack>
 
-        <EmailPasswordLogin />
+        <ButtonGroup variant="outline" spacing="4" width="full">
+          <GoogleProvider />
+          <GitHubProvider />
+        </ButtonGroup>
 
         <HStack>
           <Divider />
@@ -51,10 +48,14 @@ const Login: React.FC = () => {
           <Divider />
         </HStack>
 
-        <ButtonGroup variant="outline" spacing="4" width="full">
-          <GoogleProvider />
-          <GitHubProvider />
-        </ButtonGroup>
+        <EmailPasswordLogin />
+
+        <HStack spacing="1" justify="center">
+          <Text>Don't have an account?</Text>
+          <Button variant="link" colorScheme="blue">
+            Sign up
+          </Button>
+        </HStack>
       </Stack>
     </Container>
   );

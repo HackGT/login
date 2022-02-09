@@ -13,6 +13,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { app } from "../util/firebase";
+import { handleLoginError } from "../util/handleLoginError";
 
 const auth = getAuth(app);
 
@@ -32,7 +33,7 @@ const EmailPasswordLogin: React.FC = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        handleLoginError(error);
       });
   };
 

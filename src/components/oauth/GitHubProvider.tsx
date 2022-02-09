@@ -1,7 +1,8 @@
-import { Button, createIcon, VisuallyHidden } from "@chakra-ui/react";
+import { Button, createIcon } from "@chakra-ui/react";
 import { getAuth, GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { app } from "../../util/firebase";
+import { handleLoginError } from "../../util/handleLoginError";
 
 const GitHubIcon = createIcon({
   displayName: "GitHubIcon",
@@ -25,14 +26,14 @@ const GitHubProvider: React.FC = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        handleLoginError(error);
       });
   };
 
   return (
     <Button isFullWidth onClick={login}>
-      <VisuallyHidden>Sign in with GitHub</VisuallyHidden>
-      <GitHubIcon />
+      Sign in with GitHub
+      <GitHubIcon ml="1.5" />
     </Button>
   );
 };

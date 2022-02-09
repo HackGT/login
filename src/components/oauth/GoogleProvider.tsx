@@ -1,7 +1,8 @@
-import { Button, createIcon, VisuallyHidden } from "@chakra-ui/react";
+import { Button, createIcon } from "@chakra-ui/react";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { app } from "../../util/firebase";
+import { handleLoginError } from "../../util/handleLoginError";
 
 const GoogleIcon = createIcon({
   displayName: "GoogleIcon",
@@ -39,14 +40,14 @@ const GoogleProvider: React.FC = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        handleLoginError(error);
       });
   };
 
   return (
     <Button isFullWidth onClick={login}>
-      <VisuallyHidden>Sign in with Google</VisuallyHidden>
-      <GoogleIcon />
+      Sign in with Google
+      <GoogleIcon ml="1.5" />
     </Button>
   );
 };
