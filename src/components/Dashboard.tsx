@@ -32,7 +32,7 @@ const Dashboard: React.FC = () => {
         <VStack spacing="5">
           <Heading>Your Access Token</Heading>
           <Text fontSize="sm" wordBreak="break-all">
-            {idToken}
+            {idToken.replace(/^\s+|\s+$/g, "")}
           </Text>
           <Button onClick={logOut}>Log Out</Button>
         </VStack>
