@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import theme from "./util/theme";
 import Dashboard from "./components/Dashboard";
 import RequireAuth from "./util/RequireAuth";
+import Base from "./components/Base";
 // import Dashboard from "./components/Dashboard";
 // import Signup from "./components/Signup";
 // import ForgotPassword from "./components/ForgotPassword";
@@ -22,14 +23,7 @@ export const App = () => {
       <Router>
         <AuthProvider>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <RequireAuth>
-                  <Dashboard />
-                </RequireAuth>
-              }
-            />
+            <Route path="/" element={<Base />} />
             <Route path="/login" element={<Login />} />
           </Routes>
         </AuthProvider>
