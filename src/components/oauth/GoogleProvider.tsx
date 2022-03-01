@@ -1,7 +1,7 @@
 import { Button, createIcon } from "@chakra-ui/react";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { app, setCookie } from "../../util/firebase";
+import { useLocation, useNavigate } from "react-router-dom";
+import { app, setCookieAndRedirect } from "../../util/firebase";
 import { handleLoginError } from "../../util/handleLoginError";
 
 const GoogleIcon = createIcon({
@@ -32,13 +32,13 @@ const auth = getAuth(app);
 
 const GoogleProvider: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const provider = new GoogleAuthProvider();
 
   const login = () => {
     signInWithPopup(auth, provider)
       .then((userCredential) => {
-        setCookie(userCredential);
-        navigate("/");
+        setCookieAndRedirect(userCredential, navigate, location);
       })
       .catch((error) => {
         handleLoginError(error);

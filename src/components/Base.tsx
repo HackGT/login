@@ -1,4 +1,3 @@
-import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
 import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import {
@@ -16,7 +15,6 @@ const Base: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [idToken, setIdToken] = useState("");
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
 

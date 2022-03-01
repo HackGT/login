@@ -7,6 +7,7 @@ import {
   UserCredential,
   signInWithCustomToken,
 } from "firebase/auth";
+import { Location, NavigateFunction } from "react-router-dom";
 
 export const app = initializeApp({
   apiKey: "AIzaSyCsukUZtMkI5FD_etGfefO4Sr7fHkZM7Rg",
@@ -16,7 +17,11 @@ export const app = initializeApp({
 const auth = getAuth(app);
 setPersistence(auth, inMemoryPersistence);
 
-export const setCookie = async (userCredential: UserCredential) => {
+export const setCookieAndRedirect = async (
+  userCredential: UserCredential,
+  navigate: NavigateFunction,
+  location: Location
+) => {
   const idToken = await userCredential.user.getIdToken();
 
   try {
@@ -35,7 +40,9 @@ export const setCookie = async (userCredential: UserCredential) => {
       }
     );
 
-    signInWithCustomToken(auth, response.data.customToken);
+    await signInWithCustomToken(auth, response.data.customToken);
+
+    navigate(`/${location.search}`);
   } catch (err: any) {
     console.log(err.message);
   }
