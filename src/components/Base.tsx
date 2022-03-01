@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Navigate, useLocation, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import Loading from "../util/Loading";
 
 const Base: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [idToken, setIdToken] = useState("");
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
 
   useEffect(() => {
     const getToken = async () => {
@@ -19,12 +19,8 @@ const Base: React.FC = () => {
     getToken();
   });
 
-  if (!user) {
-    return <Navigate to={`/login${location.search}`} />;
-  }
-
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
 
   // If after login we need to redirect to an app, redirect back with the id token

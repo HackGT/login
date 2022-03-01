@@ -3,7 +3,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
-import theme from "./util/theme";
 import Dashboard from "./components/Dashboard";
 import RequireAuth from "./util/RequireAuth";
 import Base from "./components/Base";
@@ -23,8 +22,22 @@ export const App = () => {
       <Router>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Base />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/"
+              element={
+                <RequireAuth>
+                  <Base />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <RequireAuth>
+                  <Dashboard />
+                </RequireAuth>
+              }
+            />
             <Route path="/login" element={<Login />} />
           </Routes>
         </AuthProvider>

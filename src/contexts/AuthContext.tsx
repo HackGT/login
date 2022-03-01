@@ -1,10 +1,12 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import {
   getAuth,
   onAuthStateChanged,
+  signInWithCustomToken,
   User as FirebaseUser,
 } from "firebase/auth";
 import { app } from "../util/firebase";
+import axios from "axios";
 
 export type User = FirebaseUser | null;
 
@@ -25,12 +27,30 @@ const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const login = async () => {
+      try {
+        const response = await axios.get(
+          "https://users.api.hexlabs.org/auth/status",
+          {
+            withCredentials: true,
+          }
+        );
+
+        await signInWithCustomToken(auth, response.data.customToken);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    login();
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       console.log("AUTH STATE CHANGED!");
       console.log(firebaseUser);
       setUser(firebaseUser);
-      setLoading(false);
     });
 
     return unsubscribe;
