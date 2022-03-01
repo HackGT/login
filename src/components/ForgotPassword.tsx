@@ -13,6 +13,7 @@ import {
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { app } from "../util/firebase";
 import { handleLoginError } from "../util/handleLoginError";
 
@@ -24,6 +25,7 @@ const ForgotPassword: React.FC = () => {
     register,
     formState: { errors, isSubmitting },
   } = useForm();
+  const navigate = useNavigate();
   const toast = useToast();
 
   const onSubmit = async (values: any) => {
@@ -34,9 +36,10 @@ const ForgotPassword: React.FC = () => {
           description:
             "An email to reset your password has been sent. Please check your inbox for a link.",
           status: "success",
-          duration: 9000,
+          duration: 7000,
           isClosable: true,
         });
+        navigate("/login");
       })
       .catch((error) => {
         handleLoginError(error);
@@ -62,28 +65,24 @@ const ForgotPassword: React.FC = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="6">
-            <Stack spacing="5">
-              <FormControl isInvalid={errors.email}>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="hello@gmail.com"
-                  {...register("email", {
-                    required: "Please enter an email",
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.email && errors.email.message}
-                </FormErrorMessage>
-              </FormControl>
-            </Stack>
+            <FormControl isInvalid={errors.email}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                id="email"
+                type="email"
+                placeholder="hello@gmail.com"
+                {...register("email", {
+                  required: "Please enter an email",
+                })}
+              />
+              <FormErrorMessage>
+                {errors.email && errors.email.message}
+              </FormErrorMessage>
+            </FormControl>
 
-            <Stack spacing="6">
-              <Button isLoading={isSubmitting} type="submit">
-                Request Password Reset
-              </Button>
-            </Stack>
+            <Button isLoading={isSubmitting} type="submit">
+              Request Password Reset
+            </Button>
           </Stack>
         </form>
       </Stack>

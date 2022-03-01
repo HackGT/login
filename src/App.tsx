@@ -8,6 +8,7 @@ import RequireAuth from "./util/RequireAuth";
 import Base from "./components/Base";
 import Signup from "./components/Signup";
 import ForgotPassword from "./components/ForgotPassword";
+import Action from "./components/action/Action";
 
 export const App = () => {
   return (
@@ -34,6 +35,7 @@ export const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/action" element={<Action />} />
           </Routes>
         </AuthProvider>
       </Router>

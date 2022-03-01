@@ -27,6 +27,16 @@ export const handleLoginError = (error: any) => {
       message =
         "Passwords must be at least 6 characters long. Please try again with a new password.";
       break;
+    case "auth/expired-action-code":
+      message = "This code has expired. Please request a new link.";
+      break;
+    case "auth/invalid-action-code":
+      message = "This code is invalid. Please request a new link.";
+      break;
+    case "auth/email-already-in-use":
+      message =
+        "This email is already in use. Please try again with a different email.";
+      break;
     case "auth/popup-closed-by-user":
     case "auth/cancelled-popup-request":
       return;
@@ -37,10 +47,10 @@ export const handleLoginError = (error: any) => {
   }
 
   toast({
-    title: "Error Logging In",
+    title: "Login Error",
     description: message,
     status: "error",
-    duration: 9000,
+    duration: 7000,
     isClosable: true,
   });
 };
