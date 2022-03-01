@@ -1,20 +1,20 @@
 import React from "react";
 import { Button, HStack, Text } from "@chakra-ui/react";
-import EmailPasswordLogin from "./EmailPasswordLogin";
 import FormBase from "./FormBase";
+import EmailPasswordSignup from "./EmailPasswordSignup";
 import { Link } from "react-router-dom";
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
   return (
     <FormBase
-      headingText="Log in to your account"
-      emailPasswordComponent={<EmailPasswordLogin />}
+      headingText="Create an account"
+      emailPasswordComponent={<EmailPasswordSignup />}
       helpComponent={
         <HStack spacing="1" justify="center">
-          <Text>Don't have an account?</Text>
-          <Link to="/signup">
+          <Text>Already have an account?</Text>
+          <Link to="/login">
             <Button variant="link" colorScheme="blue">
-              Sign up
+              Log In
             </Button>
           </Link>
         </HStack>
@@ -23,4 +23,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Signup;

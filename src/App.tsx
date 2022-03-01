@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import RequireAuth from "./util/RequireAuth";
 import Base from "./components/Base";
+import Signup from "./components/Signup";
 // import Dashboard from "./components/Dashboard";
 // import Signup from "./components/Signup";
 // import ForgotPassword from "./components/ForgotPassword";
@@ -39,6 +40,7 @@ export const App = () => {
               }
             />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
           </Routes>
         </AuthProvider>
       </Router>

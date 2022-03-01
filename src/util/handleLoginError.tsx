@@ -23,6 +23,10 @@ export const handleLoginError = (error: any) => {
     case "auth/popup-blocked":
       message = "Popup was blocked. Please allow popups and try again.";
       break;
+    case "auth/weak-password":
+      message =
+        "Passwords must be at least 6 characters long. Please try again with a new password.";
+      break;
     case "auth/popup-closed-by-user":
     case "auth/cancelled-popup-request":
       return;

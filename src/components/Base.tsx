@@ -29,25 +29,6 @@ const Base: React.FC = () => {
   }
 
   return <Navigate to="/dashboard" />;
-
-  // const logOut = () => {
-  //   signOut(auth);
-  //   navigate("/login");
-  // };
-
-  // return (
-  //   <>
-  //     <Box maxW="80%" m="auto" mt="5">
-  //       <VStack spacing="5">
-  //         <Heading>Your Access Token</Heading>
-  //         <Text fontSize="sm" wordBreak="break-all">
-  //           {idToken.replace(/^\s+|\s+$/g, "")}
-  //         </Text>
-  //         <Button onClick={logOut}>Log Out</Button>
-  //       </VStack>
-  //     </Box>
-  //   </>
-  // );
 };
 
 export default Base;

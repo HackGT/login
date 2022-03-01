@@ -6,7 +6,7 @@ import {
   FormErrorMessage,
   Button,
 } from "@chakra-ui/react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -15,17 +15,18 @@ import { handleLoginError } from "../util/handleLoginError";
 
 const auth = getAuth(app);
 
-const EmailPasswordLogin: React.FC = () => {
+const EmailPasswordSignup: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
+    getValues,
   } = useForm();
 
   const onSubmit = async (values: any) => {
-    signInWithEmailAndPassword(auth, values.email, values.password)
+    createUserWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         setCookieAndRedirect(userCredential, navigate, location);
       })
@@ -65,24 +66,31 @@ const EmailPasswordLogin: React.FC = () => {
               {errors.password && errors.password.message}
             </FormErrorMessage>
           </FormControl>
+          <FormControl isInvalid={errors.confirmPassword}>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input
+              id="confirmPassword"
+              type="password"
+              {...register("confirmPassword", {
+                required: "Please enter a password",
+                validate: (value) =>
+                  value === getValues("password") || "Passwords do not match",
+              })}
+            />
+            <FormErrorMessage>
+              {errors.confirmPassword && errors.confirmPassword.message}
+            </FormErrorMessage>
+          </FormControl>
         </Stack>
 
         <Stack spacing="6">
           <Button isLoading={isSubmitting} type="submit">
-            Sign in
+            Sign up
           </Button>
         </Stack>
-        <Button
-          variant="link"
-          colorScheme="blue"
-          size="sm"
-          alignSelf="flex-start"
-        >
-          Forgot password?
-        </Button>
       </Stack>
     </form>
   );
 };
 
-export default EmailPasswordLogin;
+export default EmailPasswordSignup;
