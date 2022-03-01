@@ -9,6 +9,7 @@ import {
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { app, setCookieAndRedirect } from "../util/firebase";
 import { handleLoginError } from "../util/handleLoginError";
@@ -49,7 +50,7 @@ const EmailPasswordLogin: React.FC = () => {
               })}
             />
             <FormErrorMessage>
-              {errors.password && errors.password.message}
+              {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.password}>
@@ -72,14 +73,16 @@ const EmailPasswordLogin: React.FC = () => {
             Sign in
           </Button>
         </Stack>
-        <Button
-          variant="link"
-          colorScheme="blue"
-          size="sm"
-          alignSelf="flex-start"
-        >
-          Forgot password?
-        </Button>
+        <Link to="/forgot-password">
+          <Button
+            variant="link"
+            colorScheme="blue"
+            size="sm"
+            alignSelf="flex-start"
+          >
+            Forgot password?
+          </Button>
+        </Link>
       </Stack>
     </form>
   );

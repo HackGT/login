@@ -50,7 +50,7 @@ const EmailPasswordSignup: React.FC = () => {
               })}
             />
             <FormErrorMessage>
-              {errors.password && errors.password.message}
+              {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.password}>

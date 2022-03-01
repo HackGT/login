@@ -7,15 +7,7 @@ import Dashboard from "./components/Dashboard";
 import RequireAuth from "./util/RequireAuth";
 import Base from "./components/Base";
 import Signup from "./components/Signup";
-// import Dashboard from "./components/Dashboard";
-// import Signup from "./components/Signup";
-// import ForgotPassword from "./components/ForgotPassword";
-// import UpdateProfile from "./components/UpdateProfile";
-
-/* <PrivateRoute exact path="/" element={<Dashboard />} />
-<PrivateRoute path="/update-profile" element={<UpdateProfile />} />
-<Route path="/signup" element={<Signup />} />
-<Route path="/forgot-password" element={<ForgotPassword />} /> */
+import ForgotPassword from "./components/ForgotPassword";
 
 export const App = () => {
   return (
@@ -41,6 +33,7 @@ export const App = () => {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </Routes>
         </AuthProvider>
       </Router>
