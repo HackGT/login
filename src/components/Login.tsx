@@ -16,12 +16,6 @@ import { useAuth } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const { user } = useAuth();
-
-  if (user) {
-    return <Navigate to="/" />;
-  }
-
   return (
     <Container
       maxW="lg"
