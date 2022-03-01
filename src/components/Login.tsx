@@ -12,8 +12,6 @@ import {
 import EmailPasswordLogin from "./EmailPasswordLogin";
 import GoogleProvider from "./oauth/GoogleProvider";
 import GitHubProvider from "./oauth/GitHubProvider";
-import { useAuth } from "../contexts/AuthContext";
-import { Navigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   return (

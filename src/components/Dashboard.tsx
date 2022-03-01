@@ -1,4 +1,5 @@
 import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
+import axios from "axios";
 import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,8 +22,15 @@ const Dashboard: React.FC = () => {
     getToken();
   });
 
-  const logOut = () => {
+  const logOut = async () => {
     signOut(auth);
+
+    await axios.post(
+      "https://users.api.hexlabs.org/auth/logout",
+      {},
+      { withCredentials: true }
+    );
+
     navigate("/login");
   };
 

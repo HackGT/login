@@ -24,6 +24,7 @@ export const App = () => {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Base />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
           </Routes>
         </AuthProvider>

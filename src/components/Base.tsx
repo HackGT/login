@@ -1,15 +1,6 @@
-import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Navigate, useLocation, useSearchParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { app } from "../util/firebase";
-
-const auth = getAuth(app);
 
 const Base: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -36,13 +27,12 @@ const Base: React.FC = () => {
     return <h1>Loading...</h1>;
   }
 
+  // If after login we need to redirect to an app, redirect back with the id token
   if (searchParams.get("redirect")) {
     window.location.href = `${searchParams.get("redirect")}?idToken=${idToken}`;
-  } else {
-    window.location.href = "https://hexlabs.org";
   }
 
-  return null;
+  return <Navigate to="/dashboard" />;
 
   // const logOut = () => {
   //   signOut(auth);

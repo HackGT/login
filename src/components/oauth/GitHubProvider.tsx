@@ -23,7 +23,7 @@ const GitHubProvider: React.FC = () => {
 
   const login = () => {
     signInWithPopup(auth, provider)
-      .then(async (userCredential) => {
+      .then((userCredential) => {
         setCookieAndRedirect(userCredential, navigate, location);
       })
       .catch((error) => {
