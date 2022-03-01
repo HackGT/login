@@ -32,14 +32,12 @@ const Base: React.FC = () => {
     return <Navigate to={`/login${location.search}`} />;
   }
 
-  if (searchParams.get("redirect")) {
-    if (loading) {
-      return <h1>Loading...</h1>;
-    }
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
-    return (
-      <Navigate to={`${searchParams.get("redirect")}?idToken=${idToken}`} />
-    );
+  if (searchParams.get("redirect")) {
+    window.location.href = `${searchParams.get("redirect")}?idToken=${idToken}`;
   } else {
     window.location.href = "https://hexlabs.org";
   }
