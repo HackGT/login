@@ -7,6 +7,7 @@ import {
   HStack,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Select,
   Button
@@ -19,13 +20,15 @@ import Loading from "../util/Loading";
 const Profile: React.FC = (props: any) => {
   const [ loading, setLoading ] = useState(true);
   const [ profile, setProfile ] = useState(true);
+  const [ gender, setGender ] = useState("");
   const { user } = useAuth();
   const navigate = useNavigate();
   const {
     handleSubmit,
     register,
+    setValue,
     reset,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmit = async (values: any) => {
@@ -59,7 +62,7 @@ const Profile: React.FC = (props: any) => {
         const res = await axios.get(`https://users.api.hexlabs.org/users/${uid}/profile`);
         if (Object.keys(res.data).length === 0) {
           setProfile(false);
-          const name = user?.displayName ? user?.displayName.split(" ") : null;
+          const name = user?.displayName?.split(" ");
           const data = {
             user: uid,
             name: {
@@ -67,13 +70,16 @@ const Profile: React.FC = (props: any) => {
               middle: name && name.length === 3 ? name[1] : "",
               last: name ? (name.length === 3 ? name[2] : name[1]) : "",
             },
-            phoneNumber: user?.phoneNumber ? user?.phoneNumber : "",
+            phoneNumber: user?.phoneNumber,
             gender: "",
           }
-          console.log(data);
           reset(data);
         } else {
-          console.log(res.data);
+          if (res.data.gender === "male" || res.data.gender === "female" || res.data.gender === "") {
+            setGender(res.data.gender);
+          } else {
+            setGender("other");
+          }
           reset(res.data);
         }
         setLoading(false);
@@ -101,9 +107,7 @@ const Profile: React.FC = (props: any) => {
                 <Input
                   id="firstName"
                   type="text"
-                  {...register("name.first", {
-                    required: "Please enter your first name",
-                  })}
+                  {...register("name.first")}
                 />
               </FormControl>
               <FormControl>
@@ -119,38 +123,63 @@ const Profile: React.FC = (props: any) => {
                 <Input
                   id="name.last"
                   type="text"
-                  {...register("name.last", {
-                    required: "Please enter your last name",
-                  })}
+                  {...register("name.last")}
                 />
               </FormControl>
-              <FormControl isRequired>
+              <FormControl isInvalid={errors.phoneNumber} isRequired>
                 <FormLabel>Phone Number</FormLabel>
                 <Input
                   id="phoneNumber"
-                  type="tel"
                   {...register("phoneNumber", {
-                    required: "Please enter your phone number",
+                    pattern: {
+                      //eslint-disable-next-line
+                      value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
+                      message: "Please enter a valid phone number"
+                    }
                   })}
                 />
+                <FormErrorMessage>
+                  {errors.phoneNumber && errors.phoneNumber.message}
+                </FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel>Gender</FormLabel>
-                <Select
-                  placeholder='Select gender'
-                  id="gender"
-                  type="text"
-                  {...register("gender")}
-                >
-                  <option value='Male'>Male</option>
-                  <option value='Female'>Female</option>
-                  <option value='Other'>Other</option>
-                </Select>
+                <Stack spacing="2">
+                  <Select
+                    id="gender"
+                    type="text"
+                    value={gender}
+                    onChange={(e) => {
+                      setGender(e.target.value)
+                      const options = e.target.options;
+                      setValue("gender", (options[options.selectedIndex].id === "noShow") ? e.target.value : "");
+                    }}
+                  >
+                    <option id="noShow" value="">Select gender</option>
+                    <option id="noShow" value="male">Male</option>
+                    <option id="noShow" value="female">Female</option>
+                    <option id="show" value="other">Other</option>
+                  </Select>
+                  {gender === "other" ? (
+                    <Input
+                      type="text"
+                      {...register("gender", {
+                        onChange: (e) => {
+                          if (e.target.value.toLowerCase() === "male") {
+                            setGender("male")
+                           } else if (e.target.value.toLowerCase() === "female") {
+                             setGender("female")
+                           }
+                        }
+                      })}
+                    />
+                  ):(null)
+                  }
+                </Stack>
               </FormControl>
             </Stack>
-
             <HStack spacing={profile ? "16" : "0"} justify="center" type="cancel">
-              <Button hidden={!profile} onClick={() => navigate("/dashboard")}>
+              <Button hidden={!profile} type="reset" onClick={() => navigate("/dashboard")}>
                 Cancel
               </Button>
               <Button isLoading={isSubmitting} type="submit">
