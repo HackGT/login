@@ -20,11 +20,11 @@ const Dashboard: React.FC = () => {
       const newToken = await user?.getIdToken();
       const uid = await user?.uid;
       const res = await axios.get(`https://users.api.hexlabs.org/users/${uid}/profile`);
-      if (Object.keys(res.data).length === 0) {
-        navigate("/profile");
-      }
       setIdToken(newToken || "");
       setLoading(false);
+      if (Object.keys(res.data).length === 0) {
+        navigate("/profile")
+      }
     };
     
     getDetails();

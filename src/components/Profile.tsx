@@ -8,44 +8,65 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  NumberInput,
   Input,
   Select,
-  Button
+  Button,
+  NumberInputField
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import Loading from "../util/Loading";
 
-const Profile: React.FC = (props: any) => {
-  const [ loading, setLoading ] = useState(true);
-  const [ profile, setProfile ] = useState(true);
-  const [ gender, setGender ] = useState("");
+const Profile: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const {
     handleSubmit,
     register,
     setValue,
+    getValues,
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const [ loading, setLoading ] = useState(true);
+  const [ profile, setProfile ] = useState(true);
+  const [ gender, setGender ] = useState("");
+
+  const phoneNumberFormat = (val: any) => {
+    if (val.length === 0) {
+      return "";
+    } if (val.length <= 3) {
+      return (`(${val.slice(0, val.length)}`);
+    } else if (val.length <= 6) {
+      return (`(${val.slice(0, 3)}) ${val.slice(3, val.length)}`);
+    } else if (val.length <= 10){
+      return (`(${val.slice(0, 3)}) ${val.slice(3, 6)}-${val.slice(6, val.length)}`);
+    } else {
+      return val;
+    }
+  }
+
   const onSubmit = async (values: any) => {
     const uid = await user?.uid!;
+    const phoneNumber = getValues("phoneNumber").replace(/[- )(]/g, '');
     try {
       profile ? (
         await axios.put(
           `https://users.api.hexlabs.org/users/${uid}/profile`,
           {
-            ...values
+            ...values,
+            phoneNumber
           }
         )
       ) : (
         await axios.post(
           `https://users.api.hexlabs.org/users/${uid}/profile`,
           {
-            ...values
+            ...values,
+            phoneNumber
           }
         )
       )
@@ -57,7 +78,7 @@ const Profile: React.FC = (props: any) => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const uid = await user?.uid!;
+      const uid = user?.uid;
       try {
         const res = await axios.get(`https://users.api.hexlabs.org/users/${uid}/profile`);
         if (Object.keys(res.data).length === 0) {
@@ -99,7 +120,6 @@ const Profile: React.FC = (props: any) => {
       <VStack spacing="5" justify="center" marginY="24px">
         <Heading>{profile ? "Edit Profile" : "Create Profile"}</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* <Image src={user?.photoURL ? user?.photoURL : }/> */}
           <Stack spacing="6" width="300px">
             <Stack spacing="5">
               <FormControl isRequired>
@@ -128,16 +148,27 @@ const Profile: React.FC = (props: any) => {
               </FormControl>
               <FormControl isInvalid={errors.phoneNumber} isRequired>
                 <FormLabel>Phone Number</FormLabel>
-                <Input
-                  id="phoneNumber"
-                  {...register("phoneNumber", {
-                    pattern: {
-                      //eslint-disable-next-line
-                      value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
-                      message: "Please enter a valid phone number"
-                    }
-                  })}
-                />
+                <NumberInput
+                  format={phoneNumberFormat}
+                  parse={(e) => e.replace(/[- )(]/g, '')}
+                  pattern="^([(]\d+[)]\s\d+[-])?\d+$"
+                  inputMode="tel"
+                  clampValueOnBlur={false}
+                >
+                  <NumberInputField
+                    id="phoneNumber"
+                    {...register("phoneNumber", {
+                      minLength: {
+                        value: 14,
+                        message: "Please enter a valid phone number"
+                      },
+                      maxLength: {
+                        value: 14,
+                        message: "Please enter a valid phone number"
+                      }
+                    })}
+                  />
+                </NumberInput>
                 <FormErrorMessage>
                   {errors.phoneNumber && errors.phoneNumber.message}
                 </FormErrorMessage>
@@ -151,14 +182,13 @@ const Profile: React.FC = (props: any) => {
                     value={gender}
                     onChange={(e) => {
                       setGender(e.target.value)
-                      const options = e.target.options;
-                      setValue("gender", (options[options.selectedIndex].id === "noShow") ? e.target.value : "");
+                      setValue("gender", (e.target.value !== "other") ? e.target.value : "");
                     }}
                   >
-                    <option id="noShow" value="">Select gender</option>
-                    <option id="noShow" value="male">Male</option>
-                    <option id="noShow" value="female">Female</option>
-                    <option id="show" value="other">Other</option>
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
                   </Select>
                   {gender === "other" ? (
                     <Input
@@ -167,9 +197,9 @@ const Profile: React.FC = (props: any) => {
                         onChange: (e) => {
                           if (e.target.value.toLowerCase() === "male") {
                             setGender("male")
-                           } else if (e.target.value.toLowerCase() === "female") {
-                             setGender("female")
-                           }
+                          } else if (e.target.value.toLowerCase() === "female") {
+                            setGender("female")
+                          }
                         }
                       })}
                     />

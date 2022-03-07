@@ -7,7 +7,7 @@ const Base: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [idToken, setIdToken] = useState("");
   const { user } = useAuth();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, ] = useSearchParams();
 
   useEffect(() => {
     const getToken = async () => {
