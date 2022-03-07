@@ -91,8 +91,6 @@ const Profile: React.FC = () => {
               middle: name && name.length === 3 ? name[1] : "",
               last: name ? (name.length === 3 ? name[2] : name[1]) : "",
             },
-            phoneNumber: user?.phoneNumber,
-            gender: "",
           }
           reset(data);
         } else {
@@ -101,6 +99,7 @@ const Profile: React.FC = () => {
           } else {
             setGender("other");
           }
+          res.data.phoneNumber = phoneNumberFormat(res.data.phoneNumber);
           reset(res.data);
         }
         setLoading(false);
