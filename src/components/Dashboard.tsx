@@ -5,21 +5,29 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { app } from "../util/firebase";
+import Loading from "../util/Loading";
 
 const auth = getAuth(app);
 
 const Dashboard: React.FC = () => {
+  const [loading, setLoading] = useState(true);
   const [idToken, setIdToken] = useState("");
   const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getToken = async () => {
+    const getDetails = async () => {
       const newToken = await user?.getIdToken();
+      const uid = await user?.uid;
+      const res = await axios.get(`https://users.api.hexlabs.org/users/${uid}/profile`);
       setIdToken(newToken || "");
+      setLoading(false);
+      if (Object.keys(res.data).length === 0) {
+        navigate("/profile")
+      }
     };
-
-    getToken();
+    
+    getDetails();
   });
 
   const logOut = async () => {
@@ -34,6 +42,10 @@ const Dashboard: React.FC = () => {
     navigate("/login");
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Box maxW="80%" m="auto" mt="5">
@@ -42,6 +54,7 @@ const Dashboard: React.FC = () => {
           <Text fontSize="sm" wordBreak="break-all">
             {idToken.replace(/^\s+|\s+$/g, "")}
           </Text>
+          <Button onClick={() => navigate("/profile")}>Edit Profile</Button>
           <Button onClick={logOut}>Log Out</Button>
         </VStack>
       </Box>

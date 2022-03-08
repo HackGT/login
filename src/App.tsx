@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import RequireAuth from "./util/RequireAuth";
 import Base from "./components/Base";
+import Profile from "./components/Profile"
 import Signup from "./components/Signup";
 import ForgotPassword from "./components/ForgotPassword";
 import Action from "./components/action/Action";
@@ -29,6 +30,14 @@ export const App = () => {
               element={
                 <RequireAuth>
                   <Dashboard />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <RequireAuth>
+                  <Profile />
                 </RequireAuth>
               }
             />
