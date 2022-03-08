@@ -1,4 +1,9 @@
-import { getAuth, verifyPasswordResetCode } from "firebase/auth";
+import { useToast } from "@chakra-ui/react";
+import {
+  applyActionCode,
+  getAuth,
+  verifyPasswordResetCode,
+} from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { app } from "../../util/firebase";
@@ -11,6 +16,7 @@ const auth = getAuth(app);
 const Action: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [actionComponent, setActionComponent] = useState(<Loading />);
+  const toast = useToast();
 
   const mode = searchParams.get("mode") || "";
   const oobCode = searchParams.get("oobCode") || "";
@@ -31,6 +37,21 @@ const Action: React.FC = () => {
       case "recoverEmail":
         break;
       case "verifyEmail":
+        applyActionCode(auth, oobCode)
+          .then((email) => {
+            toast({
+              title: "Email Verified",
+              description: "Your email was successfully verified.",
+              status: "success",
+              duration: 7000,
+              isClosable: true,
+            });
+            setActionComponent(<Navigate to="/" />);
+          })
+          .catch((error) => {
+            handleLoginError(error);
+            setActionComponent(<Navigate to="/login" />);
+          });
         break;
       default:
         setActionComponent(<Navigate to="/login" />);
