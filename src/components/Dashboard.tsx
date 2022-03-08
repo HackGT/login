@@ -3,6 +3,7 @@ import axios from "axios";
 import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import QRCode from "qrcode.react";
 import { useAuth } from "../contexts/AuthContext";
 import { app } from "../util/firebase";
 import Loading from "../util/Loading";
@@ -12,23 +13,28 @@ const auth = getAuth(app);
 const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [idToken, setIdToken] = useState("");
+  const [profile, setProfile] = useState<any>({});
   const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const getDetails = async () => {
       const newToken = await user?.getIdToken();
-      const uid = await user?.uid;
-      const res = await axios.get(`https://users.api.hexlabs.org/users/${uid}/profile`);
+      const res = await axios.get(
+        `https://users.api.hexlabs.org/users/${user?.uid}/profile`
+      );
+
       setIdToken(newToken || "");
+      setProfile(res.data);
       setLoading(false);
+
       if (Object.keys(res.data).length === 0) {
-        navigate("/profile")
+        navigate("/profile");
       }
     };
-    
+
     getDetails();
-  });
+  }, []);
 
   const logOut = async () => {
     signOut(auth);
@@ -50,6 +56,26 @@ const Dashboard: React.FC = () => {
     <>
       <Box maxW="80%" m="auto" mt="5">
         <VStack spacing="5">
+          <Heading>Your QR Code</Heading>
+          <Text>
+            Use this QR code to enter into the event and wherever you go.
+          </Text>
+          <QRCode
+            value={JSON.stringify({
+              uid: user?.uid,
+              name: {
+                first: profile.name?.first,
+                last: profile.name?.last,
+              },
+              email: user?.email,
+            })}
+            size={200}
+            bgColor={"#ffffff"}
+            fgColor={"#000000"}
+            level={"L"}
+            includeMargin={false}
+            renderAs={"svg"}
+          />
           <Heading>Your Access Token</Heading>
           <Text fontSize="sm" wordBreak="break-all">
             {idToken.replace(/^\s+|\s+$/g, "")}
