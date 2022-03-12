@@ -12,25 +12,22 @@ const auth = getAuth(app);
 
 const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [idToken, setIdToken] = useState("");
   const [profile, setProfile] = useState<any>({});
   const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const getDetails = async () => {
-      const newToken = await user?.getIdToken();
       const res = await axios.get(
         `https://users.api.hexlabs.org/users/${user?.uid}/profile`
       );
 
-      setIdToken(newToken || "");
-      setProfile(res.data);
-      setLoading(false);
-
       if (Object.keys(res.data).length === 0) {
         navigate("/profile");
       }
+
+      setProfile(res.data);
+      setLoading(false);
     };
 
     getDetails();
@@ -76,10 +73,6 @@ const Dashboard: React.FC = () => {
             includeMargin={false}
             renderAs={"svg"}
           />
-          <Heading>Your Access Token</Heading>
-          <Text fontSize="sm" wordBreak="break-all">
-            {idToken.replace(/^\s+|\s+$/g, "")}
-          </Text>
           <Button onClick={() => navigate("/profile")}>Edit Profile</Button>
           <Button onClick={logOut}>Log Out</Button>
         </VStack>
