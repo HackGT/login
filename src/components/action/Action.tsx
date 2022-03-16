@@ -56,7 +56,7 @@ const Action: React.FC = () => {
       default:
         setActionComponent(<Navigate to="/login" />);
     }
-  }, [mode, oobCode]);
+  }, [mode, oobCode, toast]);
 
   if (!mode || !oobCode) {
     return <Navigate to="/" />;

@@ -1,14 +1,10 @@
-import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack } from "@chakra-ui/react";
 import axios from "axios";
-import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import QRCode from "qrcode.react";
 import { useAuth } from "../contexts/AuthContext";
-import { app } from "../util/firebase";
 import Loading from "../util/Loading";
-
-const auth = getAuth(app);
 
 const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -31,19 +27,7 @@ const Dashboard: React.FC = () => {
     };
 
     getDetails();
-  }, []);
-
-  const logOut = async () => {
-    signOut(auth);
-
-    await axios.post(
-      "https://users.api.hexlabs.org/auth/logout",
-      {},
-      { withCredentials: true }
-    );
-
-    navigate("/login");
-  };
+  }, [navigate, user?.uid]);
 
   if (loading) {
     return <Loading />;
@@ -51,7 +35,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Box maxW="80%" m="auto" mt="5">
+      <Box maxW="80%" m="auto" mt="5" h="450px">
         <VStack spacing="5">
           <Heading>Your QR Code</Heading>
           <Text>
@@ -73,8 +57,6 @@ const Dashboard: React.FC = () => {
             includeMargin={false}
             renderAs={"svg"}
           />
-          <Button onClick={() => navigate("/profile")}>Edit Profile</Button>
-          <Button onClick={logOut}>Log Out</Button>
         </VStack>
       </Box>
     </>

@@ -16,7 +16,7 @@ const GitHubIcon = createIcon({
 
 const auth = getAuth(app);
 
-const GitHubProvider: React.FC = () => {
+const GitHubProvider: React.FC<any> = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const provider = new GithubAuthProvider();
@@ -32,7 +32,7 @@ const GitHubProvider: React.FC = () => {
   };
 
   return (
-    <Button isFullWidth onClick={login}>
+    <Button isFullWidth onClick={login} {...props}>
       Sign in with GitHub
       <GitHubIcon ml="1.5" />
     </Button>
