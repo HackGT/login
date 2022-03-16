@@ -10,12 +10,14 @@ export class Page {
     this.name = name;
     this.link = link;
   }
+
+
 }
 
 const signedInRoutes = [
-  new Page("Sign Out", "/login"),
   new Page("Home", "/dashboard"),
   new Page("Edit Profile", "/profile"),
+  new Page("Sign Out", "/login"),
 ];
 
 const signedOutRoutes = [

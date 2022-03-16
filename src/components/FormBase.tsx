@@ -33,9 +33,9 @@ const FormBase: React.FC<Props> = (props) => {
           </Stack>
         </Stack>
 
-        <ButtonGroup spacing="4" width="full" display={{base: "none", md: "flex" }}>
-          <GoogleProvider variant="outline"/>
-          <GitHubProvider variant="outline"/>
+        <ButtonGroup variant="outline" spacing="4" width="full" display={{base: "none", md: "flex" }}>
+          <GoogleProvider />
+          <GitHubProvider />
         </ButtonGroup>
 
         <Stack spacing="4" width="full" display={{base: "flex", md: "none" }}>

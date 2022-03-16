@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Box, chakra, Container, CloseButton, Drawer, DrawerContent, IconButton, Image, useDisclosure, Stack } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import axios from "axios";
@@ -27,23 +27,38 @@ const NavbarContainer = chakra(Container, {
   },
 });
 
-const NavbarItem = chakra(Link, {
-  baseStyle: {
-    minWidth: "65px"
-  }
-});
+const NavbarItem: React.FC<{route: Page, func: () => any}> = (props) => (
+  <Box minWidth="65px" paddingLeft={{base: "0", md: "48px"}}>
+    <Link
+      key={props.route.name}
+      to={props.route.link}
+      onClick={props.func}
+    >
+      {props.route.name}
+    </Link>
+  </Box>
+)
 
 const SidebarContainer = chakra(Stack, {
   baseStyle: {
     textAlign: "center",
     fontSize: "18px",
-    spacing: "20px",
     paddingTop: "15px"
   }
 });
 
+const SidebarItem: React.FC<{route: Page, func: () => any}> = (props) => (
+  <Link
+    style={{ lineHeight: "48px" }}
+    key={props.route.name}
+    to={props.route.link}
+    onClick={props.func}
+  >
+    {props.route.name}
+  </Link>
+)
+
 const Header: React.FC<{routes: Page[]}> = props => {
-  const location = `/${useLocation()?.pathname.split("/")[1]}`;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logOut = async () => {
@@ -79,32 +94,25 @@ const Header: React.FC<{routes: Page[]}> = props => {
             display={{ base: "none", md: "flex" }}
             width="fit-content"
           >
-            {props.routes.slice(1).map(route => (
-              <NavbarItem
-                key={route.name}
-                to={route.link}
-                paddingLeft="48px"
-                borderBottomColor={location === route.link ? "#7b69ec" : "0xffffff"}
-              >
-                {route.name}
-              </NavbarItem>
+            {props.routes.map(route => (
+              route.link !== "/login" && <NavbarItem
+                route={route}
+                func={(route.name === "Sign Out") ? logOut : () => {}}
+              />
             ))}
           </Box>
           <Box
             display="flex"
             width="fit-content"
-            ml={{ base: 5 }}
+            ml={{ base: 4 }}
             mr={{ base: -3 }}
           >
-            <NavbarItem
-              key={props.routes[0].name}
-              to={props.routes[0].link}
-              paddingLeft={{ base:"0", md:"48px" }}
-              onClick={props.routes[0].name === "Sign Out" ? logOut : () => {}}
-              borderBottomColor={location === props.routes[0].link ? "#7b69ec" : "0xffffff"}
-            >
-              {props.routes[0].name}
-            </NavbarItem>
+            {props.routes.map(route => (
+              route.link === "/login" && <NavbarItem
+                route={route}
+                func={(route.name === "Sign Out") ? logOut : () => {}}
+              />
+            ))}
           </Box>
         </Box>
       </NavbarContainer>
@@ -131,15 +139,7 @@ const Header: React.FC<{routes: Page[]}> = props => {
               <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Box>
             <SidebarContainer>
-              {props.routes.slice(1).map(route => (
-                <Link
-                  key={route.name}
-                  to={route.link}
-                  onClick={onClose}
-                >
-                  {route.name}
-                </Link>
-              ))}
+              {props.routes.map(route => <SidebarItem route={route} func={onClose} />)}
             </SidebarContainer>
           </Box>
         </DrawerContent>
