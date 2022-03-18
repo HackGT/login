@@ -119,6 +119,9 @@ const Header: React.FC<{routes: Page[]}> = props => {
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
+        autoFocus={false}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
       >
         <DrawerOverlay />
         <DrawerContent
