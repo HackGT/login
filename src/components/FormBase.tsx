@@ -21,8 +21,10 @@ const FormBase: React.FC<Props> = (props) => {
   return (
     <Container
       maxW="lg"
-      py={{ base: "12", md: "24" }}
+      paddingTop={{ base: "12", md: "24" }}
+      paddingBottom={{ base: "12", md: "18" }}
       px={{ base: "0", sm: "8" }}
+      width={{ base: "75%", md: "100%" }}
     >
       <Stack spacing="8">
         <Stack spacing="6">
@@ -31,7 +33,7 @@ const FormBase: React.FC<Props> = (props) => {
           </Stack>
         </Stack>
 
-        <ButtonGroup variant="outline" spacing="4" width="full">
+        <ButtonGroup variant="outline" width="full" flexDirection={{ base: "column", md: "row"}}>
           <GoogleProvider />
           <GitHubProvider />
         </ButtonGroup>

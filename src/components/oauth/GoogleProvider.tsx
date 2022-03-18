@@ -30,7 +30,7 @@ const GoogleIcon = createIcon({
 
 const auth = getAuth(app);
 
-const GoogleProvider: React.FC = () => {
+const GoogleProvider: React.FC<any>= (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const provider = new GoogleAuthProvider();
@@ -46,7 +46,7 @@ const GoogleProvider: React.FC = () => {
   };
 
   return (
-    <Button isFullWidth onClick={login}>
+    <Button isFullWidth m="2" onClick={login} {...props}>
       Sign in with Google
       <GoogleIcon ml="1.5" />
     </Button>

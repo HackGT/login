@@ -10,12 +10,15 @@ import Profile from "./components/Profile"
 import Signup from "./components/Signup";
 import ForgotPassword from "./components/ForgotPassword";
 import Action from "./components/action/Action";
+import Footer from "./components/navigation/Footer";
+import Navigation from "./components/navigation/Navigation";
 
 export const App = () => {
   return (
     <ChakraProvider>
       <Router>
         <AuthProvider>
+          <Navigation/>
           <Routes>
             <Route
               path="/"
@@ -46,6 +49,7 @@ export const App = () => {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/action" element={<Action />} />
           </Routes>
+          <Footer />
         </AuthProvider>
       </Router>
     </ChakraProvider>
