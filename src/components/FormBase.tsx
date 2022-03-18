@@ -33,15 +33,10 @@ const FormBase: React.FC<Props> = (props) => {
           </Stack>
         </Stack>
 
-        <ButtonGroup variant="outline" spacing="4" width="full" display={{base: "none", md: "flex" }}>
+        <ButtonGroup variant="outline" spacing={{ base: 0, md: 2 }} width="full" flexDirection={{ base: "column", md: "row"}}>
           <GoogleProvider />
           <GitHubProvider />
         </ButtonGroup>
-
-        <Stack spacing="4" width="full" display={{base: "flex", md: "none" }}>
-          <GoogleProvider variant="outline"/>
-          <GitHubProvider variant="outline"/>
-        </Stack>
 
         <HStack>
           <Divider />

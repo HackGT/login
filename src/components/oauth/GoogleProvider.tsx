@@ -46,7 +46,7 @@ const GoogleProvider: React.FC<any>= (props) => {
   };
 
   return (
-    <Button isFullWidth onClick={login} {...props}>
+    <Button isFullWidth m="2" onClick={login} {...props}>
       Sign in with Google
       <GoogleIcon ml="1.5" />
     </Button>

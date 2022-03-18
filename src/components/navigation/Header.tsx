@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Box, chakra, Container, CloseButton, Drawer, DrawerContent, IconButton, Image, useDisclosure, Stack } from "@chakra-ui/react";
+import { Box, chakra, Container, CloseButton, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, IconButton, Image, useDisclosure, Stack } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import axios from "axios";
 
@@ -43,7 +43,6 @@ const SidebarContainer = chakra(Stack, {
   baseStyle: {
     textAlign: "center",
     fontSize: "18px",
-    paddingTop: "15px"
   }
 });
 
@@ -117,31 +116,25 @@ const Header: React.FC<{routes: Page[]}> = props => {
         </Box>
       </NavbarContainer>
       <Drawer
-        autoFocus={false}
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="xs"
       >
+        <DrawerOverlay />
         <DrawerContent
           display={{ base: "flex", md: "none" }}
         >
-          <Box
-            borderRight="1px"
-            pos="fixed"
-            h="full"
-            w="full"
-          >
-            <Box display="flex" h="20" alignItems="center" mx="8" justifyContent="space-between">
+          <DrawerHeader>
+            <Box display="flex" h="20" alignItems="center" ml="12" justifyContent="space-between">
               <Image src={Logo} />
               <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Box>
+          </DrawerHeader>
+          <DrawerBody>
             <SidebarContainer>
               {props.routes.map(route => <SidebarItem route={route} func={onClose} />)}
             </SidebarContainer>
-          </Box>
+          </DrawerBody>
         </DrawerContent>
       </Drawer>
   </>
