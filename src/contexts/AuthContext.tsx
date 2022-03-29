@@ -15,8 +15,9 @@ const initialState = {
   loading: true,
 };
 
-const AuthContext =
-  createContext<{ user: User | undefined; loading: boolean }>(initialState);
+const AuthContext = createContext<{ user: User | undefined; loading: boolean }>(
+  initialState
+);
 const auth = getAuth(app);
 
 export function useAuth() {
@@ -31,10 +32,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const login = async () => {
       try {
         const response = await axios.get(
-          "https://auth.api.hexlabs.org/auth/status",
-          {
-            withCredentials: true,
-          }
+          "https://auth.api.hexlabs.org/auth/status"
         );
 
         await signInWithCustomToken(auth, response.data.customToken);

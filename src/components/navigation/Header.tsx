@@ -73,11 +73,7 @@ const Header: React.FC<{ routes: Page[] }> = (props) => {
   const logOut = async () => {
     signOut(auth);
 
-    await axios.post(
-      "https://auth.api.hexlabs.org/auth/logout",
-      {},
-      { withCredentials: true }
-    );
+    await axios.post("https://auth.api.hexlabs.org/auth/logout");
   };
 
   return (

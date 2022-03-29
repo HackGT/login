@@ -25,19 +25,12 @@ export const setCookieAndRedirect = async (
   const idToken = await userCredential.user.getIdToken();
 
   try {
-    await axios.post(
-      "https://auth.api.hexlabs.org/auth/login",
-      {
-        idToken,
-      },
-      { withCredentials: true }
-    );
+    await axios.post("https://auth.api.hexlabs.org/auth/login", {
+      idToken,
+    });
 
     const response = await axios.get(
-      "https://auth.api.hexlabs.org/auth/status",
-      {
-        withCredentials: true,
-      }
+      "https://auth.api.hexlabs.org/auth/status"
     );
 
     await signInWithCustomToken(auth, response.data.customToken);
