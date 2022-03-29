@@ -31,7 +31,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const login = async () => {
       try {
         const response = await axios.get(
-          "https://users.api.hexlabs.org/auth/status",
+          "https://auth.api.hexlabs.org/auth/status",
           {
             withCredentials: true,
           }
