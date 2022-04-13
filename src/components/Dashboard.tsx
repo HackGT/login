@@ -15,7 +15,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const getDetails = async () => {
       const res = await axios.get(
-        `https://users.api.hexlabs.org/users/${user?.uid}/profile`
+        `https://users.api.hexlabs.org/users/${user?.uid}`
       );
 
       if (Object.keys(res.data).length === 0) {
