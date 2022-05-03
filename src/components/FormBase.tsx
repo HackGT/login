@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import GoogleProvider from "./oauth/GoogleProvider";
 import GitHubProvider from "./oauth/GitHubProvider";
+import GeorgiaTechProvider from "./oauth/GeorgiaTechProvider";
 
 interface Props {
   headingText: string;
@@ -27,11 +28,8 @@ const FormBase: React.FC<Props> = (props) => {
           </Stack>
         </Stack>
 
-        <ButtonGroup
-          variant="outline"
-          width="full"
-          flexDirection={{ base: "column", md: "row" }}
-        >
+        <ButtonGroup variant="outline" width="full" flexDirection="column">
+          <GeorgiaTechProvider />
           <GoogleProvider />
           <GitHubProvider />
         </ButtonGroup>
