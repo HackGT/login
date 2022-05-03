@@ -1,4 +1,4 @@
-import { Box, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Container, Heading, Text, VStack } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -34,32 +34,30 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <>
-      <Box maxW="80%" m="auto" mt="5" h="450px">
-        <VStack spacing="5">
-          <Heading>Your QR Code</Heading>
-          <Text>
-            Use this QR code to enter into the event and wherever you go.
-          </Text>
-          <QRCode
-            value={JSON.stringify({
-              uid: user?.uid,
-              name: {
-                first: profile.name?.first,
-                last: profile.name?.last,
-              },
-              email: user?.email,
-            })}
-            size={200}
-            bgColor={"#ffffff"}
-            fgColor={"#000000"}
-            level={"L"}
-            includeMargin={false}
-            renderAs={"svg"}
-          />
-        </VStack>
-      </Box>
-    </>
+    <Container mt="8">
+      <VStack spacing="5">
+        <Heading>Your QR Code</Heading>
+        <Text>
+          Use this QR code to enter into the event and wherever you go.
+        </Text>
+        <QRCode
+          value={JSON.stringify({
+            uid: user?.uid,
+            name: {
+              first: profile.name?.first,
+              last: profile.name?.last,
+            },
+            email: user?.email,
+          })}
+          size={200}
+          bgColor={"#ffffff"}
+          fgColor={"#000000"}
+          level={"L"}
+          includeMargin={false}
+          renderAs={"svg"}
+        />
+      </VStack>
+    </Container>
   );
 };
 

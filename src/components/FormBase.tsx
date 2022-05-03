@@ -19,13 +19,7 @@ interface Props {
 
 const FormBase: React.FC<Props> = (props) => {
   return (
-    <Container
-      maxW="lg"
-      paddingTop={{ base: "12", md: "24" }}
-      paddingBottom={{ base: "12", md: "18" }}
-      px={{ base: "0", sm: "8" }}
-      width={{ base: "75%", md: "100%" }}
-    >
+    <Container mt="8">
       <Stack spacing="8">
         <Stack spacing="6">
           <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
@@ -33,7 +27,11 @@ const FormBase: React.FC<Props> = (props) => {
           </Stack>
         </Stack>
 
-        <ButtonGroup variant="outline" width="full" flexDirection={{ base: "column", md: "row"}}>
+        <ButtonGroup
+          variant="outline"
+          width="full"
+          flexDirection={{ base: "column", md: "row" }}
+        >
           <GoogleProvider />
           <GitHubProvider />
         </ButtonGroup>

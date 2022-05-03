@@ -13,6 +13,7 @@ import {
   Select,
   Button,
   NumberInputField,
+  Container,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -119,106 +120,114 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <VStack spacing="5" justify="center" marginY="24px">
-      <Heading>{profile ? "Edit Profile" : "Create Profile"}</Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing="6" width="300px">
-          <Stack spacing="5">
-            <FormControl isRequired>
-              <FormLabel>First Name</FormLabel>
-              <Input id="firstName" type="text" {...register("name.first")} />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Middle Name</FormLabel>
-              <Input
-                id="name.middle"
-                type="text"
-                {...register("name.middle")}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Last Name</FormLabel>
-              <Input id="name.last" type="text" {...register("name.last")} />
-            </FormControl>
-            <FormControl isInvalid={errors.phoneNumber} isRequired>
-              <FormLabel>Phone Number</FormLabel>
-              <NumberInput
-                format={phoneNumberFormat}
-                parse={(e) => e.replace(/[- )(]/g, "")}
-                pattern="^([(]\d+[)]\s\d+[-])?\d+$"
-                inputMode="tel"
-                clampValueOnBlur={false}
-              >
-                <NumberInputField
-                  id="phoneNumber"
-                  {...register("phoneNumber", {
-                    minLength: {
-                      value: 14,
-                      message: "Please enter a valid phone number",
-                    },
-                    maxLength: {
-                      value: 14,
-                      message: "Please enter a valid phone number",
-                    },
-                  })}
-                />
-              </NumberInput>
-              <FormErrorMessage>
-                {errors.phoneNumber && errors.phoneNumber.message}
-              </FormErrorMessage>
-            </FormControl>
-            <FormControl>
-              <FormLabel>Gender</FormLabel>
-              <Stack spacing="2">
-                <Select
-                  id="gender"
+    <Container mt="8">
+      <VStack spacing="5" justify="center" marginY="24px">
+        <Heading>{profile ? "Edit Profile" : "Create Profile"}</Heading>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing="6">
+            <Stack spacing="5">
+              <FormControl isRequired>
+                <FormLabel>First Name</FormLabel>
+                <Input id="firstName" type="text" {...register("name.first")} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Middle Name</FormLabel>
+                <Input
+                  id="name.middle"
                   type="text"
-                  value={gender}
-                  onChange={(e) => {
-                    setGender(e.target.value);
-                    setValue(
-                      "gender",
-                      e.target.value !== "other" ? e.target.value : ""
-                    );
-                  }}
+                  {...register("name.middle")}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Last Name</FormLabel>
+                <Input id="name.last" type="text" {...register("name.last")} />
+              </FormControl>
+              <FormControl isInvalid={errors.phoneNumber} isRequired>
+                <FormLabel>Phone Number</FormLabel>
+                <NumberInput
+                  format={phoneNumberFormat}
+                  parse={(e) => e.replace(/[- )(]/g, "")}
+                  pattern="^([(]\d+[)]\s\d+[-])?\d+$"
+                  inputMode="tel"
+                  clampValueOnBlur={false}
                 >
-                  <option value="">Select gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </Select>
-                {gender === "other" ? (
-                  <Input
-                    type="text"
-                    {...register("gender", {
-                      onChange: (e) => {
-                        if (e.target.value.toLowerCase() === "male") {
-                          setGender("male");
-                        } else if (e.target.value.toLowerCase() === "female") {
-                          setGender("female");
-                        }
+                  <NumberInputField
+                    id="phoneNumber"
+                    {...register("phoneNumber", {
+                      minLength: {
+                        value: 14,
+                        message: "Please enter a valid phone number",
+                      },
+                      maxLength: {
+                        value: 14,
+                        message: "Please enter a valid phone number",
                       },
                     })}
                   />
-                ) : null}
-              </Stack>
-            </FormControl>
-          </Stack>
-          <HStack spacing={profile ? "16" : "0"} justify="center" type="cancel">
-            <Button
-              hidden={!profile}
-              type="reset"
-              onClick={() => navigate("/dashboard")}
+                </NumberInput>
+                <FormErrorMessage>
+                  {errors.phoneNumber && errors.phoneNumber.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Gender</FormLabel>
+                <Stack spacing="2">
+                  <Select
+                    id="gender"
+                    type="text"
+                    value={gender}
+                    onChange={(e) => {
+                      setGender(e.target.value);
+                      setValue(
+                        "gender",
+                        e.target.value !== "other" ? e.target.value : ""
+                      );
+                    }}
+                  >
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </Select>
+                  {gender === "other" ? (
+                    <Input
+                      type="text"
+                      {...register("gender", {
+                        onChange: (e) => {
+                          if (e.target.value.toLowerCase() === "male") {
+                            setGender("male");
+                          } else if (
+                            e.target.value.toLowerCase() === "female"
+                          ) {
+                            setGender("female");
+                          }
+                        },
+                      })}
+                    />
+                  ) : null}
+                </Stack>
+              </FormControl>
+            </Stack>
+            <HStack
+              spacing={profile ? "16" : "0"}
+              justify="center"
+              type="cancel"
             >
-              Cancel
-            </Button>
-            <Button isLoading={isSubmitting} type="submit">
-              Save
-            </Button>
-          </HStack>
-        </Stack>
-      </form>
-    </VStack>
+              <Button
+                hidden={!profile}
+                type="reset"
+                onClick={() => navigate("/dashboard")}
+              >
+                Cancel
+              </Button>
+              <Button isLoading={isSubmitting} type="submit">
+                Save
+              </Button>
+            </HStack>
+          </Stack>
+        </form>
+      </VStack>
+    </Container>
   );
 };
 
