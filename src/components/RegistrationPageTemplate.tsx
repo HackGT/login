@@ -8,9 +8,9 @@ import {
   Text,
   ButtonGroup,
 } from "@chakra-ui/react";
-import GoogleProvider from "./oauth/GoogleProvider";
-import GitHubProvider from "./oauth/GitHubProvider";
-import GeorgiaTechProvider from "./oauth/GeorgiaTechProvider";
+import GoogleProvider from "./oauthProviders/GoogleProvider";
+import GitHubProvider from "./oauthProviders/GitHubProvider";
+import GeorgiaTechProvider from "./oauthProviders/GeorgiaTechProvider";
 
 interface Props {
   headingText: string;
@@ -18,7 +18,7 @@ interface Props {
   helpComponent: JSX.Element;
 }
 
-const FormBase: React.FC<Props> = (props) => {
+const RegistrationPageTemplate: React.FC<Props> = (props) => {
   return (
     <Container mt="8">
       <Stack spacing="8">
@@ -50,4 +50,4 @@ const FormBase: React.FC<Props> = (props) => {
   );
 };
 
-export default FormBase;
+export default RegistrationPageTemplate;

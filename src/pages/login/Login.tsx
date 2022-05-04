@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, HStack, Text } from "@chakra-ui/react";
-import EmailPasswordLogin from "./EmailPasswordLogin";
-import FormBase from "./FormBase";
+import EmailPasswordLoginForm from "./EmailPasswordLoginForm";
+import RegistrationPageTemplate from "../../components/RegistrationPageTemplate";
 import { Link } from "react-router-dom";
 
 const Login: React.FC = () => {
   return (
-    <FormBase
+    <RegistrationPageTemplate
       headingText="Log in to your account"
-      emailPasswordComponent={<EmailPasswordLogin />}
+      emailPasswordComponent={<EmailPasswordLoginForm />}
       helpComponent={
         <HStack spacing="1" justify="center">
           <Text>Don't have an account?</Text>

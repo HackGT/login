@@ -20,7 +20,7 @@ import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import Loading from "../util/Loading";
 
-const Profile: React.FC = () => {
+const EditOrCreateProfile: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const {
@@ -231,4 +231,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default EditOrCreateProfile;

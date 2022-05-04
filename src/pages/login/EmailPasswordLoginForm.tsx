@@ -6,27 +6,27 @@ import {
   FormErrorMessage,
   Button,
 } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
-import { app, setCookieAndRedirect } from "../util/firebase";
-import { handleLoginError } from "../util/handleLoginError";
+import { app, setCookieAndRedirect } from "../../util/firebase";
+import { handleLoginError } from "../../util/handleLoginError";
 
 const auth = getAuth(app);
 
-const EmailPasswordSignup: React.FC = () => {
+const EmailPasswordLoginForm: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-    getValues,
   } = useForm();
 
   const onSubmit = async (values: any) => {
-    createUserWithEmailAndPassword(auth, values.email, values.password)
+    signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
         setCookieAndRedirect(userCredential, navigate, location);
       })
@@ -66,31 +66,26 @@ const EmailPasswordSignup: React.FC = () => {
               {errors.password && errors.password.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.confirmPassword}>
-            <FormLabel>Confirm Password</FormLabel>
-            <Input
-              id="confirmPassword"
-              type="password"
-              {...register("confirmPassword", {
-                required: "Please enter a password",
-                validate: (value) =>
-                  value === getValues("password") || "Passwords do not match",
-              })}
-            />
-            <FormErrorMessage>
-              {errors.confirmPassword && errors.confirmPassword.message}
-            </FormErrorMessage>
-          </FormControl>
         </Stack>
 
         <Stack spacing="6">
           <Button isLoading={isSubmitting} type="submit">
-            Sign up
+            Sign in
           </Button>
         </Stack>
+        <Link to="/forgot-password">
+          <Button
+            variant="link"
+            colorScheme="blue"
+            size="sm"
+            alignSelf="flex-start"
+          >
+            Forgot password?
+          </Button>
+        </Link>
       </Stack>
     </form>
   );
 };
 
-export default EmailPasswordSignup;
+export default EmailPasswordLoginForm;

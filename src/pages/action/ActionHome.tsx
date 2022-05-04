@@ -13,7 +13,7 @@ import ChangePassword from "./ChangePassword";
 
 const auth = getAuth(app);
 
-const Action: React.FC = () => {
+const ActionHome: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [actionComponent, setActionComponent] = useState(<Loading />);
   const toast = useToast();
@@ -65,4 +65,4 @@ const Action: React.FC = () => {
   return actionComponent;
 };
 
-export default Action;
+export default ActionHome;

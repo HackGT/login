@@ -2,14 +2,14 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
+import Login from "./pages/login/Login";
+import Dashboard from "./pages/Dashboard";
 import RequireAuth from "./util/RequireAuth";
-import Base from "./components/Base";
-import Profile from "./components/Profile";
-import Signup from "./components/Signup";
-import ForgotPassword from "./components/ForgotPassword";
-import Action from "./components/action/Action";
+import BaseRedirector from "./pages/BaseRedirector";
+import EditOrCreateProfile from "./pages/EditOrCreateProfile";
+import Signup from "./pages/signup/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
+import ActionHome from "./pages/action/ActionHome";
 import Footer from "./components/navigation/Footer";
 import Navigation from "./components/navigation/Navigation";
 import axios from "axios";
@@ -27,7 +27,7 @@ export const App = () => {
               path="/"
               element={
                 <RequireAuth>
-                  <Base />
+                  <BaseRedirector />
                 </RequireAuth>
               }
             />
@@ -43,14 +43,14 @@ export const App = () => {
               path="/profile"
               element={
                 <RequireAuth>
-                  <Profile />
+                  <EditOrCreateProfile />
                 </RequireAuth>
               }
             />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/action" element={<Action />} />
+            <Route path="/action" element={<ActionHome />} />
           </Routes>
           <Footer />
         </AuthProvider>

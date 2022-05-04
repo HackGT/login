@@ -3,11 +3,11 @@ import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Loading from "../util/Loading";
 
-const Base: React.FC = () => {
+const BaseRedirector: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [idToken, setIdToken] = useState("");
   const { user } = useAuth();
-  const [searchParams, ] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const getToken = async () => {
@@ -31,4 +31,4 @@ const Base: React.FC = () => {
   return <Navigate to="/dashboard" />;
 };
 
-export default Base;
+export default BaseRedirector;
