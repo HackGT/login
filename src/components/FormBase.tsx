@@ -28,7 +28,7 @@ const FormBase: React.FC<Props> = (props) => {
           </Stack>
         </Stack>
 
-        <ButtonGroup variant="outline" width="full" flexDirection="column">
+        <ButtonGroup variant="outline" flexDirection="column">
           <GeorgiaTechProvider />
           <GoogleProvider />
           <GitHubProvider />

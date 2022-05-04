@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
     <Container mt="8">
       <VStack spacing="5">
         <Heading>Your QR Code</Heading>
-        <Text>
+        <Text align="center">
           Use this QR code to enter into the event and wherever you go.
         </Text>
         <QRCode

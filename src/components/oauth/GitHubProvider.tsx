@@ -32,7 +32,7 @@ const GitHubProvider: React.FC<any> = (props) => {
   };
 
   return (
-    <Button isFullWidth m="2" onClick={login} {...props}>
+    <Button m="2" onClick={login} {...props}>
       Sign in with GitHub
       <GitHubIcon ml="1.5" />
     </Button>
