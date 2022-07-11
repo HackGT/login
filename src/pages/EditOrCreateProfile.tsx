@@ -15,13 +15,14 @@ import {
   NumberInputField,
   Container,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 
 const EditOrCreateProfile: React.FC = () => {
   const { user, profile, refetchProfile } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   // Gender value is handled differently as it could show a text box
   const DEFAULT_GENDERS = ["", "male", "female"];
   const [gender, setGender] = useState("");
@@ -88,16 +89,17 @@ const EditOrCreateProfile: React.FC = () => {
   const onSubmit = async (values: any) => {
     const phoneNumber = getValues("phoneNumber")?.replace(/[- )(]/g, "");
     try {
-      profile
-        ? await axios.put(`https://users.api.hexlabs.org/users/${user?.uid}`, {
-            ...values,
-            phoneNumber,
-          })
-        : await axios.post(`https://users.api.hexlabs.org/users`, {
+      !profile || Object.keys(profile).length === 0
+        ? await axios.post(`https://users.api.hexlabs.org/users`, {
             ...values,
             user: user?.uid,
             phoneNumber,
+          })
+        : await axios.put(`https://users.api.hexlabs.org/users/${user?.uid}`, {
+            ...values,
+            phoneNumber,
           });
+      navigate(`/${location.search}`);
     } catch (e: any) {
       console.log(e.message);
     }
