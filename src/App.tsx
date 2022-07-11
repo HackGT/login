@@ -26,7 +26,7 @@ export const App = () => {
             <Route
               path="/"
               element={
-                <RequireAuth>
+                <RequireAuth checkValidProfile>
                   <BaseRedirector />
                 </RequireAuth>
               }
@@ -34,7 +34,7 @@ export const App = () => {
             <Route
               path="/dashboard"
               element={
-                <RequireAuth>
+                <RequireAuth checkValidProfile>
                   <Dashboard />
                 </RequireAuth>
               }

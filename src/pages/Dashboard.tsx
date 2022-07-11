@@ -1,33 +1,10 @@
 import { Container, Heading, Text, VStack } from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import QRCode from "qrcode.react";
 import { useAuth } from "../contexts/AuthContext";
 import Loading from "../util/Loading";
 
 const Dashboard: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<any>({});
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const getDetails = async () => {
-      const res = await axios.get(
-        `https://users.api.hexlabs.org/users/${user?.uid}`
-      );
-
-      if (Object.keys(res.data).length === 0) {
-        navigate("/profile");
-      }
-
-      setProfile(res.data);
-      setLoading(false);
-    };
-
-    getDetails();
-  }, [navigate, user?.uid]);
+  const { user, profile, loading } = useAuth();
 
   if (loading) {
     return <Loading />;
@@ -44,8 +21,8 @@ const Dashboard: React.FC = () => {
           value={JSON.stringify({
             uid: user?.uid,
             name: {
-              first: profile.name?.first,
-              last: profile.name?.last,
+              first: profile?.name?.first,
+              last: profile?.name?.last,
             },
             email: user?.email,
           })}

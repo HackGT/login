@@ -5,7 +5,6 @@ import {
   getAuth,
   setPersistence,
   UserCredential,
-  signInWithCustomToken,
 } from "firebase/auth";
 import { Location, NavigateFunction } from "react-router-dom";
 
@@ -28,12 +27,6 @@ export const setCookieAndRedirect = async (
     await axios.post("https://auth.api.hexlabs.org/auth/login", {
       idToken,
     });
-
-    const response = await axios.get(
-      "https://auth.api.hexlabs.org/auth/status"
-    );
-
-    await signInWithCustomToken(auth, response.data.customToken);
 
     navigate(`/${location.search}`);
   } catch (err: any) {

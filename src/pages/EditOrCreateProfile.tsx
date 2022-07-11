@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Heading,
@@ -18,23 +18,16 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
-import Loading from "../util/Loading";
 
 const EditOrCreateProfile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, profile, refetchProfile } = useAuth();
   const navigate = useNavigate();
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    getValues,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm();
-
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState(true);
+  // Gender value is handled differently as it could show a text box
+  const DEFAULT_GENDERS = ["", "male", "female"];
   const [gender, setGender] = useState("");
+  const [genderTextbox, setGenderTextbox] = useState(
+    !DEFAULT_GENDERS.includes(profile?.gender ?? "")
+  );
 
   const phoneNumberFormat = (val: any) => {
     if (val.length === 0) {
@@ -54,70 +47,62 @@ const EditOrCreateProfile: React.FC = () => {
     }
   };
 
+  /**
+   * Generates initial default user profile based on current user profile.
+   */
+  const defaultUserProfile = useMemo(() => {
+    if (!profile || Object.keys(profile).length === 0) {
+      const name = user?.displayName?.split(" ");
+      return {
+        name: {
+          first: name ? name[0] : "",
+          middle: name && name.length === 3 ? name[1] : "",
+          last: name ? (name.length === 3 ? name[2] : name[1]) : "",
+        },
+        phoneNumber: "",
+        gender: "",
+      };
+    } else {
+      setGender(profile.gender ?? "");
+
+      const updatedProfile = {
+        name: profile.name,
+        phoneNumber: phoneNumberFormat(profile.phoneNumber),
+        gender: profile.gender,
+      };
+
+      return updatedProfile;
+    }
+  }, [user, profile]);
+
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    getValues,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: defaultUserProfile,
+  });
+
   const onSubmit = async (values: any) => {
-    const uid = await user?.uid!;
-    const phoneNumber = getValues("phoneNumber").replace(/[- )(]/g, "");
+    const phoneNumber = getValues("phoneNumber")?.replace(/[- )(]/g, "");
     try {
       profile
-        ? await axios.put(`https://users.api.hexlabs.org/users/${uid}`, {
+        ? await axios.put(`https://users.api.hexlabs.org/users/${user?.uid}`, {
             ...values,
             phoneNumber,
           })
         : await axios.post(`https://users.api.hexlabs.org/users`, {
             ...values,
-            user: uid,
+            user: user?.uid,
             phoneNumber,
           });
     } catch (e: any) {
       console.log(e.message);
     }
-    navigate("/dashboard");
+    await refetchProfile();
   };
-
-  useEffect(() => {
-    const getUserData = async () => {
-      const uid = user?.uid;
-      try {
-        const res = await axios.get(
-          `https://users.api.hexlabs.org/users/${uid}`
-        );
-        if (Object.keys(res.data).length === 0) {
-          setProfile(false);
-          const name = user?.displayName?.split(" ");
-          const data = {
-            user: uid,
-            name: {
-              first: name ? name[0] : "",
-              middle: name && name.length === 3 ? name[1] : "",
-              last: name ? (name.length === 3 ? name[2] : name[1]) : "",
-            },
-          };
-          reset(data);
-        } else {
-          if (
-            res.data.gender === "male" ||
-            res.data.gender === "female" ||
-            res.data.gender === ""
-          ) {
-            setGender(res.data.gender);
-          } else {
-            setGender("other");
-          }
-          res.data.phoneNumber = phoneNumberFormat(res.data.phoneNumber);
-          reset(res.data);
-        }
-        setLoading(false);
-      } catch (e: any) {
-        console.log(e.message);
-      }
-    };
-
-    getUserData();
-  }, [user, reset]);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <Container mt="8">
@@ -142,7 +127,7 @@ const EditOrCreateProfile: React.FC = () => {
                 <FormLabel>Last Name</FormLabel>
                 <Input id="name.last" type="text" {...register("name.last")} />
               </FormControl>
-              <FormControl isInvalid={errors.phoneNumber} isRequired>
+              <FormControl isInvalid={Boolean(errors.phoneNumber)} isRequired>
                 <FormLabel>Phone Number</FormLabel>
                 <NumberInput
                   format={phoneNumberFormat}
@@ -175,13 +160,21 @@ const EditOrCreateProfile: React.FC = () => {
                   <Select
                     id="gender"
                     type="text"
-                    value={gender}
+                    value={
+                      DEFAULT_GENDERS.includes(gender) && !genderTextbox
+                        ? gender
+                        : "other"
+                    }
                     onChange={(e) => {
-                      setGender(e.target.value);
-                      setValue(
-                        "gender",
-                        e.target.value !== "other" ? e.target.value : ""
-                      );
+                      if (e.target.value === "other") {
+                        setGender("");
+                        setValue("gender", "");
+                        setGenderTextbox(true);
+                      } else {
+                        setGender(e.target.value);
+                        setValue("gender", e.target.value);
+                        setGenderTextbox(false);
+                      }
                     }}
                   >
                     <option value="">Select gender</option>
@@ -189,7 +182,7 @@ const EditOrCreateProfile: React.FC = () => {
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                   </Select>
-                  {gender === "other" ? (
+                  {genderTextbox ? (
                     <Input
                       type="text"
                       {...register("gender", {
