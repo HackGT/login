@@ -10,8 +10,6 @@ export class Page {
     this.name = name;
     this.link = link;
   }
-
-
 }
 
 const signedInRoutes = [
@@ -28,9 +26,7 @@ const signedOutRoutes = [
 const Navigation: React.FC = () => {
   const { user } = useAuth();
 
-  return(
-    <Header routes={user ? signedInRoutes : signedOutRoutes}/>
-  );
+  return <Header routes={user ? signedInRoutes : signedOutRoutes} />;
 };
 
 export default Navigation;

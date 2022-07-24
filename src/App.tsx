@@ -13,6 +13,7 @@ import ActionHome from "./pages/action/ActionHome";
 import Footer from "./components/navigation/Footer";
 import Navigation from "./components/navigation/Navigation";
 import axios from "axios";
+import UserTablePage from "./pages/users/UserTablePage";
 
 axios.defaults.withCredentials = true;
 
@@ -44,6 +45,14 @@ export const App = () => {
               element={
                 <RequireAuth>
                   <EditOrCreateProfile />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <RequireAuth checkValidProfile>
+                  <UserTablePage />
                 </RequireAuth>
               }
             />
