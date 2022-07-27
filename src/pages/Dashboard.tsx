@@ -1,4 +1,11 @@
-import { Container, Heading, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Container,
+  Heading,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import QRCode from "qrcode.react";
 import { useAuth } from "../contexts/AuthContext";
 import Loading from "../util/Loading";
@@ -12,7 +19,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container mt="8">
-      <VStack spacing="5">
+      {/* <VStack spacing="5">
         <Heading>Your QR Code</Heading>
         <Text align="center">
           Use this QR code to enter into the event and wherever you go.
@@ -33,6 +40,14 @@ const Dashboard: React.FC = () => {
           includeMargin={false}
           renderAs={"svg"}
         />
+      </VStack> */}
+      <VStack spacing="5">
+        <Heading>Register for HackGT 9!</Heading>
+        <a href="https://registration.hexlabs.org">
+          <Button as={Button} align="center">
+            Go!
+          </Button>
+        </a>
       </VStack>
     </Container>
   );
