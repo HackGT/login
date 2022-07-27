@@ -19,7 +19,6 @@ export type Profile = {
     last: string;
   };
   phoneNumber?: string;
-  gender?: string;
   resume?: string;
 };
 

@@ -23,12 +23,6 @@ const EditOrCreateProfile: React.FC = () => {
   const { user, profile, refetchProfile } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  // Gender value is handled differently as it could show a text box
-  const DEFAULT_GENDERS = ["", "male", "female"];
-  const [gender, setGender] = useState("");
-  const [genderTextbox, setGenderTextbox] = useState(
-    !DEFAULT_GENDERS.includes(profile?.gender ?? "")
-  );
 
   const phoneNumberFormat = (val: any) => {
     if (val.length === 0) {
@@ -61,15 +55,11 @@ const EditOrCreateProfile: React.FC = () => {
           last: name ? (name.length === 3 ? name[2] : name[1]) : "",
         },
         phoneNumber: "",
-        gender: "",
       };
     } else {
-      setGender(profile.gender ?? "");
-
       const updatedProfile = {
         name: profile.name,
         phoneNumber: phoneNumberFormat(profile.phoneNumber),
-        gender: profile.gender,
       };
 
       return updatedProfile;
@@ -155,52 +145,6 @@ const EditOrCreateProfile: React.FC = () => {
                 <FormErrorMessage>
                   {errors.phoneNumber && errors.phoneNumber.message}
                 </FormErrorMessage>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Gender</FormLabel>
-                <Stack spacing="2">
-                  <Select
-                    id="gender"
-                    type="text"
-                    value={
-                      DEFAULT_GENDERS.includes(gender) && !genderTextbox
-                        ? gender
-                        : "other"
-                    }
-                    onChange={(e) => {
-                      if (e.target.value === "other") {
-                        setGender("");
-                        setValue("gender", "");
-                        setGenderTextbox(true);
-                      } else {
-                        setGender(e.target.value);
-                        setValue("gender", e.target.value);
-                        setGenderTextbox(false);
-                      }
-                    }}
-                  >
-                    <option value="">Select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </Select>
-                  {genderTextbox ? (
-                    <Input
-                      type="text"
-                      {...register("gender", {
-                        onChange: (e) => {
-                          if (e.target.value.toLowerCase() === "male") {
-                            setGender("male");
-                          } else if (
-                            e.target.value.toLowerCase() === "female"
-                          ) {
-                            setGender("female");
-                          }
-                        },
-                      })}
-                    />
-                  ) : null}
-                </Stack>
               </FormControl>
             </Stack>
             <HStack
