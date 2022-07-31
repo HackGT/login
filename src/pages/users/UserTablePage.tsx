@@ -1,122 +1,115 @@
-import React, { useEffect, useMemo } from "react";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Heading,
-  HStack,
-  Icon,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Stack,
-  Text,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import React, { useMemo, useState } from "react";
+import { Tag, IconButton, useDisclosure, Text } from "@chakra-ui/react";
+import { ErrorScreen, SearchableTable } from "@hex-labs/core";
 import useAxios from "axios-hooks";
-import { useState } from "react";
-import { FiSearch } from "react-icons/fi";
-import UserTable from "./UserTable";
+import { FiEdit2 } from "react-icons/fi";
+import UserEditModal from "./UserEditModal";
 
 const limit = 50;
 
-const UserTablePage: React.FC = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+const AllApplicationsTable: React.FC = () => {
   const [offset, setOffset] = useState(0);
   const [searchText, setSearchText] = useState("");
-  const [{ data, loading, error }, refetch] = useAxios(
-    `https://users.api.hexlabs.org/users?offset=${offset}&limit=${limit}&search=${searchText}`
-  );
+  const [{ data, error }, refetch] = useAxios({
+    method: "GET",
+    url: "https://users.api.hexlabs.org/users",
+    params: {
+      search: searchText,
+      offset,
+    },
+  });
 
-  const hasPrevious = useMemo(() => {
-    return offset > 0;
-  }, [offset]);
-  const hasNext = useMemo(() => {
-    if (!data?.total) {
-      return false;
-    }
-    return data.total > offset + limit;
-  }, [data, offset]);
-
-  const handlePrevious = () => {
-    if (hasPrevious) {
-      setOffset(offset - limit);
-    }
+  const onPreviousClicked = () => {
+    setOffset(offset - limit);
   };
-
-  const handleNext = () => {
-    if (hasNext) {
-      setOffset(offset + limit);
-    }
+  const onNextClicked = () => {
+    setOffset(offset + limit);
   };
-
-  const handleSearchChange = (event: any) => {
+  const onSearchTextChange = (event: any) => {
     setSearchText(event.target.value);
     setOffset(0);
   };
 
-  const [resultsText, setResultsText] = useState("Loading...");
-  useEffect(() => {
-    if (data && data.count > 0) {
-      setResultsText(
-        `Showing ${offset + 1} to ${offset + data.count} of ${
-          data.total
-        } results`
-      );
-    } else if (data) {
-      setResultsText(`Showing 0 results`);
-    }
-  }, [data, offset]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [currentModalData, setCurrentModalData] = useState<any>({});
+
+  const handleModalOpen = (defaultValues: any) => {
+    setCurrentModalData(defaultValues);
+    onOpen();
+  };
+  const handleModalClose = () => {
+    setCurrentModalData({});
+    onClose();
+  };
+
+  const columns = useMemo(
+    () => [
+      {
+        key: 0,
+        header: "Name",
+        accessor: (row: any) => (
+          <Text fontWeight="medium">
+            {row.name.first} {row.name.last}
+          </Text>
+        ),
+      },
+      {
+        key: 1,
+        header: "Email",
+        accessor: (row: any) => row.email,
+      },
+      {
+        key: 2,
+        header: "Permissions",
+        accessor: (row: any) => (
+          <>
+            {row.roles?.member && <Tag m="5px">Member</Tag>}
+            {row.roles?.admin && <Tag m="5px">Admin</Tag>}
+            {row.roles?.exec && <Tag m="5px">Exec</Tag>}
+          </>
+        ),
+      },
+      {
+        key: 3,
+        header: "Actions",
+        accessor: (row: any) => (
+          <IconButton
+            icon={<FiEdit2 fontSize="1.25rem" />}
+            variant="ghost"
+            aria-label="Edit profile"
+            onClick={() => handleModalOpen(row)}
+          />
+        ),
+      },
+    ],
+    []
+  );
+
+  if (error) {
+    return <ErrorScreen error={error} />;
+  }
 
   return (
-    <Box bg="bg-surface">
-      <Stack spacing="5">
-        <Box px={{ base: "4", md: "6" }} pt="5">
-          <Stack
-            direction={{ base: "column", md: "row" }}
-            justify="space-between"
-          >
-            <Heading>Users</Heading>
-            <InputGroup maxW="xs">
-              <InputLeftElement pointerEvents="none">
-                <Icon as={FiSearch} color="muted" boxSize="5" />
-              </InputLeftElement>
-              <Input
-                placeholder="Search"
-                value={searchText}
-                onChange={handleSearchChange}
-              />
-            </InputGroup>
-          </Stack>
-        </Box>
-        <Box overflowX="auto">
-          <UserTable profiles={data?.profiles} refetch={refetch} />
-        </Box>
-        <Box px={{ base: "4", md: "6" }} pb="5">
-          <HStack spacing="3" justify="space-between">
-            {!isMobile && (
-              <Text color="muted" fontSize="sm">
-                {resultsText}
-              </Text>
-            )}
-            <ButtonGroup
-              spacing="3"
-              justifyContent="space-between"
-              width={{ base: "full", md: "auto" }}
-              variant="secondary"
-            >
-              <Button disabled={!hasPrevious} onClick={handlePrevious}>
-                Previous
-              </Button>
-              <Button disabled={!hasNext} onClick={handleNext}>
-                Next
-              </Button>
-            </ButtonGroup>
-          </HStack>
-        </Box>
-      </Stack>
-    </Box>
+    <>
+      <SearchableTable
+        title="Users"
+        data={data?.profiles}
+        columns={columns}
+        searchText={searchText}
+        onSearchTextChange={onSearchTextChange}
+        onPreviousClicked={onPreviousClicked}
+        onNextClicked={onNextClicked}
+        offset={offset}
+        total={data?.total}
+      />
+      <UserEditModal
+        defaultValues={currentModalData}
+        isOpen={isOpen}
+        onClose={handleModalClose}
+        refetch={refetch}
+      />
+    </>
   );
 };
 
-export default UserTablePage;
+export default AllApplicationsTable;
