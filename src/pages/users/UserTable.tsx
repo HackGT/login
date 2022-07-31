@@ -68,7 +68,7 @@ const UserTable: React.FC<Props> = (props) => {
         </Thead>
         <Tbody>
           {profiles.map((profile) => (
-            <Tr key={profile._id}>
+            <Tr key={profile.id}>
               <Td>
                 <HStack spacing="3">
                   <Box>
