@@ -8,14 +8,14 @@ import React, { useEffect, useState } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { app } from "../../util/firebase";
 import { handleLoginError } from "../../util/handleLoginError";
-import Loading from "../../util/Loading";
+import { LoadingScreen } from "@hex-labs/core";
 import ChangePassword from "./ChangePassword";
 
 const auth = getAuth(app);
 
 const ActionHome: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const [actionComponent, setActionComponent] = useState(<Loading />);
+  const [actionComponent, setActionComponent] = useState(<LoadingScreen />);
   const toast = useToast();
 
   const mode = searchParams.get("mode") || "";

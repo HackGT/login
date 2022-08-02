@@ -61,7 +61,11 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-const AuthProvider: React.FC = ({ children }) => {
+interface Props {
+  children: React.ReactElement| React.ReactElement[]
+}
+
+const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [validProfile, setValidProfile] = useState<boolean>(false);

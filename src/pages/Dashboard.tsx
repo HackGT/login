@@ -2,19 +2,16 @@ import {
   Button,
   Container,
   Heading,
-  Link,
-  Text,
   VStack,
 } from "@chakra-ui/react";
-import QRCode from "qrcode.react";
 import { useAuth } from "../contexts/AuthContext";
-import Loading from "../util/Loading";
+import { LoadingScreen } from "@hex-labs/core";
 
 const Dashboard: React.FC = () => {
-  const { user, profile, loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) {
-    return <Loading />;
+    return <LoadingScreen />;
   }
 
   return (

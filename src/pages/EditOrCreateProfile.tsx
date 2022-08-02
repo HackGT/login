@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import {
   Heading,
@@ -10,7 +10,6 @@ import {
   FormErrorMessage,
   NumberInput,
   Input,
-  Select,
   Button,
   NumberInputField,
   Container,
@@ -69,7 +68,6 @@ const EditOrCreateProfile: React.FC = () => {
   const {
     handleSubmit,
     register,
-    setValue,
     getValues,
     formState: { errors, isSubmitting },
   } = useForm({
