@@ -1,32 +1,56 @@
 import React from "react";
+import { Header, HeaderItem } from "@hex-labs/core";
+import { Link } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+import axios from "axios";
+
 import { useAuth } from "../../contexts/AuthContext";
-import Header from "./Header";
+import { app } from "../../util/firebase";
 
-export class Page {
-  name: string;
-  link: string;
-
-  constructor(name: string, link: string) {
-    this.name = name;
-    this.link = link;
-  }
-}
-
-const signedInRoutes = [
-  new Page("Home", "/dashboard"),
-  new Page("Edit Profile", "/profile"),
-  new Page("Sign Out", "/login"),
-];
-
-const signedOutRoutes = [
-  new Page("Sign In", "/login"),
-  new Page("Sign Up", "/signup"),
-];
+const auth = getAuth(app);
 
 const Navigation: React.FC = () => {
   const { user } = useAuth();
 
-  return <Header routes={user ? signedInRoutes : signedOutRoutes} />;
+  const logOut = async () => {
+    signOut(auth);
+    await axios.post("https://auth.api.hexlabs.org/auth/logout");
+  };
+
+  return(
+    (user) ? (
+      <Header>
+        <HeaderItem>
+          <Link to="/dashboard">
+            Home
+          </Link>
+        </HeaderItem>
+        <HeaderItem>
+          <Link to="/profile">
+            Edit Profile
+          </Link>
+        </HeaderItem>
+        <HeaderItem show>
+          <Link to="/login" onClick={logOut}>
+            Sign Out
+          </Link>
+        </HeaderItem>
+      </Header>
+    ) : (
+      <Header>
+        <HeaderItem>
+          <Link to="/login">
+            Sign In
+          </Link>
+        </HeaderItem>
+        <HeaderItem show>
+          <Link to="/signup">
+            Sign Up
+          </Link>
+        </HeaderItem>
+      </Header>
+    )
+  );
 };
 
 export default Navigation;

@@ -1,13 +1,14 @@
 import React from "react";
+import { LoadingScreen } from "@hex-labs/core";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Loading from "./Loading";
 
 interface Props {
   /**
    * If true, the component will check if the user has a valid profile. If not, it will redirect to the profile creation page.
    */
   checkValidProfile?: boolean;
+  children: React.ReactElement | React.ReactElement[];
 }
 
 const RequireAuth: React.FC<Props> = ({ checkValidProfile, children }) => {
@@ -15,7 +16,7 @@ const RequireAuth: React.FC<Props> = ({ checkValidProfile, children }) => {
   const location = useLocation();
 
   if (loading) {
-    return <Loading />;
+    return <LoadingScreen />;
   }
 
   // If no user, redirect to login page

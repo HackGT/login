@@ -1,19 +1,20 @@
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { AuthProvider } from "./contexts/AuthContext";
+import { Footer } from "@hex-labs/core";
+import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import { AuthProvider } from "./contexts/AuthContext";
 import Login from "./pages/login/Login";
 import Dashboard from "./pages/Dashboard";
-import RequireAuth from "./util/RequireAuth";
 import BaseRedirector from "./pages/BaseRedirector";
 import EditOrCreateProfile from "./pages/EditOrCreateProfile";
 import Signup from "./pages/signup/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import ActionHome from "./pages/action/ActionHome";
-import Footer from "./components/navigation/Footer";
-import Navigation from "./components/navigation/Navigation";
-import axios from "axios";
 import UserTablePage from "./pages/users/UserTablePage";
+import Navigation from "./components/navigation/Navigation";
+import RequireAuth from "./util/RequireAuth";
 
 axios.defaults.withCredentials = true;
 
@@ -22,7 +23,7 @@ export const App = () => {
     <ChakraProvider>
       <Router>
         <AuthProvider>
-          <Navigation />
+          <Navigation/>
           <Routes>
             <Route
               path="/"
@@ -61,7 +62,7 @@ export const App = () => {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/action" element={<ActionHome />} />
           </Routes>
-          <Footer />
+          <Footer/>
         </AuthProvider>
       </Router>
     </ChakraProvider>

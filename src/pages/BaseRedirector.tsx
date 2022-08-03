@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Loading from "../util/Loading";
+import { LoadingScreen } from "@hex-labs/core";
 
 const BaseRedirector: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const BaseRedirector: React.FC = () => {
   });
 
   if (loading) {
-    return <Loading />;
+    return <LoadingScreen />;
   }
 
   // If after login we need to redirect to an app, redirect back with the id token
