@@ -24,7 +24,7 @@ const EditOrCreateProfile: React.FC = () => {
   const location = useLocation();
 
   const phoneNumberFormat = (val: any) => {
-    if (val.length === 0) {
+    if (!val || val.length === 0) {
       return "";
     }
     if (val.length <= 3) {
