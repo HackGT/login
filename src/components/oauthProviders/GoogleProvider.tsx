@@ -1,6 +1,7 @@
 import { Button, createIcon } from "@chakra-ui/react";
 import { getAuth, GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 import { app } from "../../util/firebase";
+import { handleLoginError } from "../../util/handleLoginError";
 
 const GoogleIcon = createIcon({
   displayName: "GoogleIcon",
@@ -31,8 +32,10 @@ const auth = getAuth(app);
 const GoogleProvider: React.FC<any> = (props) => {
   const provider = new GoogleAuthProvider();
 
-  const login = async () => {
-    await signInWithRedirect(auth, provider);
+  const login = () => {
+    signInWithRedirect(auth, provider).catch((error) => {
+      handleLoginError(error);
+    });
   };
 
   return (

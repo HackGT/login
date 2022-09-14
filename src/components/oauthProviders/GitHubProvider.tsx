@@ -1,6 +1,7 @@
 import { Button, createIcon } from "@chakra-ui/react";
 import { getAuth, GithubAuthProvider, signInWithRedirect } from "firebase/auth";
 import { app } from "../../util/firebase";
+import { handleLoginError } from "../../util/handleLoginError";
 
 const GitHubIcon = createIcon({
   displayName: "GitHubIcon",
@@ -17,8 +18,10 @@ const auth = getAuth(app);
 const GitHubProvider: React.FC<any> = (props) => {
   const provider = new GithubAuthProvider();
 
-  const login = async () => {
-    await signInWithRedirect(auth, provider);
+  const login = () => {
+    signInWithRedirect(auth, provider).catch((error) => {
+      handleLoginError(error);
+    });
   };
 
   return (

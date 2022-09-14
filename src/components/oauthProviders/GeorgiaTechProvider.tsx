@@ -1,6 +1,7 @@
 import { Button, createIcon } from "@chakra-ui/react";
 import { getAuth, SAMLAuthProvider, signInWithRedirect } from "firebase/auth";
 import { app } from "../../util/firebase";
+import { handleLoginError } from "../../util/handleLoginError";
 
 const GeorgiaTechIcon = createIcon({
   displayName: "GeorgiaTechIcon",
@@ -18,8 +19,10 @@ const auth = getAuth(app);
 const GeorgiaTechProvider: React.FC<any> = (props) => {
   const provider = new SAMLAuthProvider("saml.georgia-tech-login");
 
-  const login = async () => {
-    await signInWithRedirect(auth, provider);
+  const login = () => {
+    signInWithRedirect(auth, provider).catch((error) => {
+      handleLoginError(error);
+    });
   };
 
   return (
