@@ -1,8 +1,6 @@
 import { Button, createIcon } from "@chakra-ui/react";
-import { getAuth, GithubAuthProvider, signInWithPopup } from "firebase/auth";
-import { useLocation, useNavigate } from "react-router-dom";
-import { app, setCookieAndRedirect } from "../../util/firebase";
-import { handleLoginError } from "../../util/handleLoginError";
+import { getAuth, GithubAuthProvider, signInWithRedirect } from "firebase/auth";
+import { app } from "../../util/firebase";
 
 const GitHubIcon = createIcon({
   displayName: "GitHubIcon",
@@ -17,18 +15,10 @@ const GitHubIcon = createIcon({
 const auth = getAuth(app);
 
 const GitHubProvider: React.FC<any> = (props) => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const provider = new GithubAuthProvider();
 
-  const login = () => {
-    signInWithPopup(auth, provider)
-      .then((userCredential) => {
-        setCookieAndRedirect(userCredential, navigate, location);
-      })
-      .catch((error) => {
-        handleLoginError(error);
-      });
+  const login = async () => {
+    await signInWithRedirect(auth, provider);
   };
 
   return (

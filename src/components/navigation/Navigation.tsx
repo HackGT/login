@@ -17,39 +17,29 @@ const Navigation: React.FC = () => {
     await axios.post("https://auth.api.hexlabs.org/auth/logout");
   };
 
-  return(
-    (user) ? (
-      <Header>
-        <HeaderItem>
-          <Link to="/dashboard">
-            Home
-          </Link>
-        </HeaderItem>
-        <HeaderItem>
-          <Link to="/profile">
-            Edit Profile
-          </Link>
-        </HeaderItem>
-        <HeaderItem show>
-          <Link to="/login" onClick={logOut}>
-            Sign Out
-          </Link>
-        </HeaderItem>
-      </Header>
-    ) : (
-      <Header>
-        <HeaderItem>
-          <Link to="/login">
-            Sign In
-          </Link>
-        </HeaderItem>
-        <HeaderItem show>
-          <Link to="/signup">
-            Sign Up
-          </Link>
-        </HeaderItem>
-      </Header>
-    )
+  return user ? (
+    <Header>
+      <HeaderItem>
+        <Link to="/dashboard">Home</Link>
+      </HeaderItem>
+      <HeaderItem>
+        <Link to="/profile">Edit Profile</Link>
+      </HeaderItem>
+      <HeaderItem show>
+        <Link to="/login" onClick={logOut}>
+          Sign Out
+        </Link>
+      </HeaderItem>
+    </Header>
+  ) : (
+    <Header>
+      <HeaderItem>
+        <Link to="/login">Sign In</Link>
+      </HeaderItem>
+      <HeaderItem show>
+        <Link to="/signup">Sign Up</Link>
+      </HeaderItem>
+    </Header>
   );
 };
 
