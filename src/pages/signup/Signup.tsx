@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LoadingScreen } from "@hex-labs/core";
 import { getAuth, getRedirectResult } from "firebase/auth";
 import { app, setCookieAndRedirect } from "../../util/firebase";
+import { handleLoginError } from "../../util/handleLoginError";
 
 const auth = getAuth(app);
 
@@ -16,12 +17,18 @@ const Signup: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getRedirectResult(auth).then(async (userCredential) => {
-      if (userCredential) {
-        await setCookieAndRedirect(userCredential, navigate, location);
-      }
-      setLoading(false);
-    });
+    getRedirectResult(auth)
+      .then(async (userCredential) => {
+        if (userCredential) {
+          await setCookieAndRedirect(userCredential, navigate, location);
+        }
+      })
+      .catch((error) => {
+        handleLoginError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [location, navigate]);
 
   if (loading) {
