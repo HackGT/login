@@ -1,7 +1,6 @@
 import { Button, createIcon } from "@chakra-ui/react";
-import { getAuth, SAMLAuthProvider, signInWithPopup } from "firebase/auth";
-import { useLocation, useNavigate } from "react-router-dom";
-import { app, setCookieAndRedirect } from "../../util/firebase";
+import { getAuth, SAMLAuthProvider, signInWithRedirect } from "firebase/auth";
+import { app } from "../../util/firebase";
 import { handleLoginError } from "../../util/handleLoginError";
 
 const GeorgiaTechIcon = createIcon({
@@ -18,18 +17,12 @@ const GeorgiaTechIcon = createIcon({
 const auth = getAuth(app);
 
 const GeorgiaTechProvider: React.FC<any> = (props) => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const provider = new SAMLAuthProvider("saml.georgia-tech-login");
 
   const login = () => {
-    signInWithPopup(auth, provider)
-      .then((userCredential) => {
-        setCookieAndRedirect(userCredential, navigate, location);
-      })
-      .catch((error) => {
-        handleLoginError(error);
-      });
+    signInWithRedirect(auth, provider).catch((error) => {
+      handleLoginError(error);
+    });
   };
 
   return (

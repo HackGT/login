@@ -62,7 +62,7 @@ export function useAuth() {
 }
 
 interface Props {
-  children: React.ReactElement| React.ReactElement[]
+  children: React.ReactElement | React.ReactElement[];
 }
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
