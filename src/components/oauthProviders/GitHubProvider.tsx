@@ -18,10 +18,12 @@ const auth = getAuth(app);
 const GitHubProvider: React.FC<any> = (props) => {
   const provider = new GithubAuthProvider();
 
-  const login = () => {
-    signInWithRedirect(auth, provider).catch((error) => {
+  const login = async () => {
+    try {
+      await signInWithRedirect(auth, provider);
+    } catch (error) {
       handleLoginError(error);
-    });
+    }
   };
 
   return (

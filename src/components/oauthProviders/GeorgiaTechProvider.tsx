@@ -19,10 +19,12 @@ const auth = getAuth(app);
 const GeorgiaTechProvider: React.FC<any> = (props) => {
   const provider = new SAMLAuthProvider("saml.georgia-tech-login");
 
-  const login = () => {
-    signInWithRedirect(auth, provider).catch((error) => {
+  const login = async () => {
+    try {
+      await signInWithRedirect(auth, provider);
+    } catch (error) {
       handleLoginError(error);
-    });
+    }
   };
 
   return (
