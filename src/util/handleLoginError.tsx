@@ -37,6 +37,9 @@ export const handleLoginError = (error: any) => {
       message =
         "This email is already in use. Please try again with a different email.";
       break;
+    case "auth/unauthorized-domain":
+      message = "This domain is not authorized to login. Please try again.";
+      break;
     case "auth/popup-closed-by-user":
     case "auth/cancelled-popup-request":
       return;
