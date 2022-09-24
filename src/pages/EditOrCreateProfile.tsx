@@ -18,28 +18,28 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 
+const phoneNumberFormat = (val: any) => {
+  if (!val || val.length === 0) {
+    return "";
+  }
+  if (val.length <= 3) {
+    return `(${val.slice(0, val.length)}`;
+  } else if (val.length <= 6) {
+    return `(${val.slice(0, 3)}) ${val.slice(3, val.length)}`;
+  } else if (val.length <= 10) {
+    return `(${val.slice(0, 3)}) ${val.slice(3, 6)}-${val.slice(
+      6,
+      val.length
+    )}`;
+  } else {
+    return val;
+  }
+};
+
 const EditOrCreateProfile: React.FC = () => {
   const { user, profile, refetchProfile } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const phoneNumberFormat = (val: any) => {
-    if (!val || val.length === 0) {
-      return "";
-    }
-    if (val.length <= 3) {
-      return `(${val.slice(0, val.length)}`;
-    } else if (val.length <= 6) {
-      return `(${val.slice(0, 3)}) ${val.slice(3, val.length)}`;
-    } else if (val.length <= 10) {
-      return `(${val.slice(0, 3)}) ${val.slice(3, 6)}-${val.slice(
-        6,
-        val.length
-      )}`;
-    } else {
-      return val;
-    }
-  };
 
   /**
    * Generates initial default user profile based on current user profile.
@@ -96,8 +96,10 @@ const EditOrCreateProfile: React.FC = () => {
 
   return (
     <Container mt="8">
-      <VStack spacing="5" justify="center" marginY="24px">
-        <Heading>{profile ? "Edit Profile" : "Create Profile"}</Heading>
+      <VStack spacing="8" justify="center" marginY="24px">
+        <Heading size="lg">
+          {profile ? "Edit Profile" : "Create Profile"}
+        </Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="6">
             <Stack spacing="5">

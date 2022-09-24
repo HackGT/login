@@ -49,14 +49,12 @@ const ForgotPassword: React.FC = () => {
   return (
     <Container mt="8">
       <Stack spacing="8">
-        <Stack spacing="6">
-          <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
-            <Heading size="lg">Forgot Password?</Heading>
-            <Text>
-              Enter the email address associated with your account, and we will
-              send you a link to reset your password.
-            </Text>
-          </Stack>
+        <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
+          <Heading size="lg">Forgot Password?</Heading>
+          <Text>
+            Enter the email address associated with your account, and we will
+            send you a link to reset your password.
+          </Text>
         </Stack>
 
         <form onSubmit={handleSubmit(onSubmit)}>
