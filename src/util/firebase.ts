@@ -10,7 +10,7 @@ import { Location, NavigateFunction } from "react-router-dom";
 
 export const app = initializeApp({
   apiKey: "AIzaSyCsukUZtMkI5FD_etGfefO4Sr7fHkZM7Rg",
-  authDomain: "hexlabs-cloud.firebaseapp.com",
+  authDomain: "auth.hexlabs.org",
 });
 
 const auth = getAuth(app);
