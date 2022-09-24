@@ -2,9 +2,22 @@ import React from "react";
 import { Button, HStack, Text } from "@chakra-ui/react";
 import RegistrationPageTemplate from "../../components/RegistrationPageTemplate";
 import EmailPasswordSignupForm from "./EmailPasswordSignupForm";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
+import { LoadingScreen } from "@hex-labs/core";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Signup: React.FC = () => {
+  const { loading, user } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  if (user) {
+    return <Navigate to={`/${location.search}`} />;
+  }
+
   return (
     <RegistrationPageTemplate
       headingText="Create an account"
