@@ -87,11 +87,11 @@ const EditOrCreateProfile: React.FC = () => {
             ...values,
             phoneNumber,
           });
+      await refetchProfile();
       navigate(`/${location.search}`);
     } catch (e: any) {
       console.log(e.message);
     }
-    await refetchProfile();
   };
 
   return (
