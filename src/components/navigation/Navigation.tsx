@@ -10,12 +10,20 @@ import { app } from "../../util/firebase";
 const auth = getAuth(app);
 
 const Navigation: React.FC = () => {
-  const { user } = useAuth();
+  const { loading, user } = useAuth();
 
   const logOut = async () => {
     await signOut(auth);
     await axios.post("https://auth.api.hexlabs.org/auth/logout");
   };
+
+  if (loading) {
+    return (
+      <Header>
+        <div />
+      </Header>
+    );
+  }
 
   return user ? (
     <Header>
