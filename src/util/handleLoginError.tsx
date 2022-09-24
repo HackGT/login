@@ -40,6 +40,9 @@ export const handleLoginError = (error: any) => {
     case "auth/unauthorized-domain":
       message = "This domain is not authorized to login. Please try again.";
       break;
+    case "auth/too-many-requests":
+      message = "Too many requests. Please try again later.";
+      break;
     case "auth/popup-closed-by-user":
     case "auth/cancelled-popup-request":
       return;

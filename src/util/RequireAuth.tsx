@@ -24,7 +24,11 @@ const RequireAuth: React.FC<Props> = ({ checkValidProfile, children }) => {
     return <Navigate to={`/login${location.search}`} />;
   }
 
-  // If user doesn't have a vlaid profile, redirect to profile page
+  if (!user.emailVerified) {
+    return <Navigate to={`/setup/verify-email${location.search}`} />;
+  }
+
+  // If user doesn't have a valid profile, redirect to profile page
   if (checkValidProfile && !validProfile) {
     return <Navigate to={`/profile${location.search}`} />;
   }

@@ -26,13 +26,17 @@ const EmailPasswordLoginForm: React.FC = () => {
   } = useForm();
 
   const onSubmit = async (values: any) => {
-    signInWithEmailAndPassword(auth, values.email, values.password)
-      .then((userCredential) => {
-        setCookieAndRedirect(userCredential, navigate, location);
-      })
-      .catch((error) => {
-        handleLoginError(error);
-      });
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+
+      await setCookieAndRedirect(userCredential, navigate, location);
+    } catch (error) {
+      handleLoginError(error);
+    }
   };
 
   return (

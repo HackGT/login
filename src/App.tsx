@@ -15,6 +15,7 @@ import ActionHome from "./pages/action/ActionHome";
 import UserTablePage from "./pages/users/UserTablePage";
 import Navigation from "./components/navigation/Navigation";
 import RequireAuth from "./util/RequireAuth";
+import SendEmailVerificationPage from "./pages/setup/SendEmailVerificationPage";
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +24,7 @@ export const App = () => {
     <ChakraProvider>
       <Router>
         <AuthProvider>
-          <Navigation/>
+          <Navigation />
           <Routes>
             <Route
               path="/"
@@ -61,8 +62,12 @@ export const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/action" element={<ActionHome />} />
+            <Route
+              path="/setup/verify-email"
+              element={<SendEmailVerificationPage />}
+            />
           </Routes>
-          <Footer/>
+          <Footer />
         </AuthProvider>
       </Router>
     </ChakraProvider>

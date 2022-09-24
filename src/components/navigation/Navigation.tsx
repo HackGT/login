@@ -1,6 +1,6 @@
 import React from "react";
 import { Header, HeaderItem } from "@hex-labs/core";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import axios from "axios";
 
@@ -11,6 +11,7 @@ const auth = getAuth(app);
 
 const Navigation: React.FC = () => {
   const { loading, user } = useAuth();
+  const location = useLocation();
 
   const logOut = async () => {
     await signOut(auth);
@@ -42,10 +43,10 @@ const Navigation: React.FC = () => {
   ) : (
     <Header>
       <HeaderItem>
-        <Link to="/login">Sign In</Link>
+        <Link to={`/login${location.search}`}>Sign In</Link>
       </HeaderItem>
       <HeaderItem show>
-        <Link to="/signup">Sign Up</Link>
+        <Link to={`/signup${location.search}`}>Sign Up</Link>
       </HeaderItem>
     </Header>
   );

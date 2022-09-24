@@ -6,7 +6,11 @@ import {
   FormErrorMessage,
   Button,
 } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  sendEmailVerification,
+} from "firebase/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -26,13 +30,20 @@ const EmailPasswordSignupForm: React.FC = () => {
   } = useForm();
 
   const onSubmit = async (values: any) => {
-    createUserWithEmailAndPassword(auth, values.email, values.password)
-      .then((userCredential) => {
-        setCookieAndRedirect(userCredential, navigate, location);
-      })
-      .catch((error) => {
-        handleLoginError(error);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+
+      await sendEmailVerification(userCredential.user, {
+        url: `${window.location.origin}/${location.search}`,
       });
+      await setCookieAndRedirect(userCredential, navigate, location);
+    } catch (error) {
+      handleLoginError(error);
+    }
   };
 
   return (
