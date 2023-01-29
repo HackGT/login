@@ -53,7 +53,7 @@ export const App = () => {
             <Route
               path="/users"
               element={
-                <RequireAuth checkValidProfile>
+                <RequireAuth checkValidProfile checkMember>
                   <UserTablePage />
                 </RequireAuth>
               }
