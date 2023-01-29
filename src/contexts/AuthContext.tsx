@@ -20,6 +20,11 @@ export type Profile = {
   };
   phoneNumber?: string;
   resume?: string;
+  roles?: {
+    admin: boolean
+    exec: boolean
+    member: boolean
+  }
 };
 
 const initialState = {

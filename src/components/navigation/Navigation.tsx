@@ -10,7 +10,7 @@ import { app } from "../../util/firebase";
 const auth = getAuth(app);
 
 const Navigation: React.FC = () => {
-  const { loading, user } = useAuth();
+  const { loading, user, profile } = useAuth();
   const location = useLocation();
 
   const logOut = async () => {
@@ -34,6 +34,12 @@ const Navigation: React.FC = () => {
       <HeaderItem>
         <Link to="/profile">Edit Profile</Link>
       </HeaderItem>
+      {
+        profile?.roles?.member && 
+          <HeaderItem>
+            <Link to="/users">View Users</Link>
+          </HeaderItem>
+      }
       <HeaderItem show>
         <Link to="/login" onClick={logOut}>
           Sign Out
