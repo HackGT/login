@@ -16,6 +16,7 @@ import UserTablePage from "./pages/users/UserTablePage";
 import Navigation from "./components/navigation/Navigation";
 import RequireAuth from "./util/RequireAuth";
 import SendEmailVerificationPage from "./pages/setup/SendEmailVerificationPage";
+import UserDetailPage from "./pages/users/UserDetailPage";
 
 axios.defaults.withCredentials = true;
 
@@ -66,6 +67,13 @@ export const App = () => {
               path="/setup/verify-email"
               element={<SendEmailVerificationPage />}
             />
+            <Route 
+              path="users/:userID"
+              element={
+             <RequireAuth checkValidProfile checkMember>
+               <UserDetailPage />
+             </RequireAuth>
+           } />
           </Routes>
           <Footer />
         </AuthProvider>

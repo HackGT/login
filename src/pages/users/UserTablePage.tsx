@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from "react";
-import { Tag, IconButton, useDisclosure, Text } from "@chakra-ui/react";
+import { Tag, IconButton, useDisclosure, Text, Link as ChakraLink, } from "@chakra-ui/react";
 import { ErrorScreen, SearchableTable } from "@hex-labs/core";
 import useAxios from "axios-hooks";
 import { FiEdit2 } from "react-icons/fi";
 import UserEditModal from "./UserEditModal";
+import { Link } from "react-router-dom";
 
 const limit = 50;
 
@@ -48,9 +49,9 @@ const AllApplicationsTable: React.FC = () => {
         key: 0,
         header: "Name",
         accessor: (row: any) => (
-          <Text fontWeight="medium">
+          <ChakraLink as={Link} to={row.id}>
             {row.name.first} {row.name.last}
-          </Text>
+          </ChakraLink>
         ),
       },
       {
