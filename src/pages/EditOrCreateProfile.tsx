@@ -13,6 +13,10 @@ import {
   Button,
   NumberInputField,
   Container,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
 } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -100,6 +104,13 @@ const EditOrCreateProfile: React.FC = () => {
         <Heading size="lg">
           {profile ? "Edit Profile" : "Create Profile"}
         </Heading>
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>Delete Profile</AlertTitle>
+          <AlertDescription>
+            If you wish to delete your profile, please email us at hello@hexlabs.org with your name.
+          </AlertDescription>
+        </Alert>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="6">
             <Stack spacing="5">
