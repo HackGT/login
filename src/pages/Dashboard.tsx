@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
         />
       </VStack> */}
       <VStack spacing="5">
-        <Heading>Register for Horizons!</Heading>
+        <Heading>Register for Catalyst!</Heading>
         <a href="https://registration.hexlabs.org">
           <Button as={Button} align="center">
             Go!
