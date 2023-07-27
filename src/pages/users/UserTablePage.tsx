@@ -3,7 +3,7 @@ import { Tag, IconButton, useDisclosure, Text } from "@chakra-ui/react";
 import { ErrorScreen, SearchableTable } from "@hex-labs/core";
 import useAxios from "axios-hooks";
 import { FiEdit2 } from "react-icons/fi";
-import UserEditModal from "./UserEditModal";
+import UserInfoEditModal from "./UserInfoEditModal";
 
 const limit = 50;
 
@@ -49,7 +49,9 @@ const AllApplicationsTable: React.FC = () => {
         header: "Name",
         accessor: (row: any) => (
           <Text fontWeight="medium">
-            {row.name.first} {row.name.last}
+            {row.name.first}
+            {row.name.middle ? " " : ""}
+            {row.name.middle} {row.name.last}
           </Text>
         ),
       },
@@ -102,7 +104,7 @@ const AllApplicationsTable: React.FC = () => {
         offset={offset}
         total={data?.total}
       />
-      <UserEditModal
+      <UserInfoEditModal
         defaultValues={currentModalData}
         isOpen={isOpen}
         onClose={handleModalClose}
