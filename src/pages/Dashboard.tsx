@@ -1,9 +1,4 @@
-import {
-  Button,
-  Container,
-  Heading,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Container, Heading, VStack } from "@chakra-ui/react";
 import { useAuth } from "../contexts/AuthContext";
 import { LoadingScreen } from "@hex-labs/core";
 
@@ -16,34 +11,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container mt="8">
-      {/* <VStack spacing="5">
-        <Heading>Your QR Code</Heading>
-        <Text align="center">
-          Use this QR code to enter into the event and wherever you go.
-        </Text>
-        <QRCode
-          value={JSON.stringify({
-            uid: user?.uid,
-            name: {
-              first: profile?.name?.first,
-              last: profile?.name?.last,
-            },
-            email: user?.email,
-          })}
-          size={200}
-          bgColor={"#ffffff"}
-          fgColor={"#000000"}
-          level={"L"}
-          includeMargin={false}
-          renderAs={"svg"}
-        />
-      </VStack> */}
       <VStack spacing="5">
         <Heading>Register for HackGT X!</Heading>
         <a href="https://registration.hexlabs.org">
-          <Button as={Button} align="center">
-            Go!
-          </Button>
+          <Button align="center">Go!</Button>
         </a>
       </VStack>
     </Container>
