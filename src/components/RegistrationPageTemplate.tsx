@@ -11,6 +11,7 @@ import {
 import GoogleProvider from "./oauthProviders/GoogleProvider";
 import GitHubProvider from "./oauthProviders/GitHubProvider";
 import GeorgiaTechProvider from "./oauthProviders/GeorgiaTechProvider";
+import AppleProvider from "./oauthProviders/AppleProvider";
 
 interface Props {
   headingText: string;
@@ -32,6 +33,7 @@ const RegistrationPageTemplate: React.FC<Props> = (props) => {
           <GoogleProvider />
           <GitHubProvider />
           <GeorgiaTechProvider />
+          <AppleProvider />
         </ButtonGroup>
 
         <HStack>
