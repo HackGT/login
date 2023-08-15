@@ -32,8 +32,8 @@ const RegistrationPageTemplate: React.FC<Props> = (props) => {
         <ButtonGroup variant="outline" flexDirection="column">
           <GoogleProvider />
           <GitHubProvider />
-          <GeorgiaTechProvider />
           <AppleProvider />
+          <GeorgiaTechProvider />
         </ButtonGroup>
 
         <HStack>

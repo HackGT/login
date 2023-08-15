@@ -31,6 +31,7 @@ const PROVIDER_ID_MAP: Record<any, string> = {
   "google.com": "Google",
   "github.com": "GitHub",
   "saml.georgia-tech-login": "GT Login",
+  "apple.com": "Apple",
   password: "Password",
 };
 
