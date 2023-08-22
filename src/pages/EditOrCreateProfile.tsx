@@ -13,6 +13,7 @@ import {
   Button,
   NumberInputField,
   Container,
+  useToast,
 } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -40,6 +41,7 @@ const EditOrCreateProfile: React.FC = () => {
   const { user, profile, refetchProfile } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const toast = useToast();
 
   /**
    * Generates initial default user profile based on current user profile.
@@ -87,6 +89,14 @@ const EditOrCreateProfile: React.FC = () => {
             ...values,
             phoneNumber,
           });
+
+      toast({
+        title: "Success",
+        description: "Profile updated successfully!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
       await refetchProfile();
       navigate(`/${location.search}`);
     } catch (e: any) {
@@ -126,8 +136,7 @@ const EditOrCreateProfile: React.FC = () => {
                   parse={(e) => e.replace(/[- )(]/g, "")}
                   pattern="^([(]\d+[)]\s\d+[-])?\d+$"
                   inputMode="tel"
-                  clampValueOnBlur={false}
-                >
+                  clampValueOnBlur={false}>
                   <NumberInputField
                     id="phoneNumber"
                     {...register("phoneNumber", {
@@ -150,13 +159,11 @@ const EditOrCreateProfile: React.FC = () => {
             <HStack
               spacing={profile ? "16" : "0"}
               justify="center"
-              type="cancel"
-            >
+              type="cancel">
               <Button
                 hidden={!profile}
                 type="reset"
-                onClick={() => navigate("/dashboard")}
-              >
+                onClick={() => navigate("/dashboard")}>
                 Cancel
               </Button>
               <Button isLoading={isSubmitting} type="submit">
