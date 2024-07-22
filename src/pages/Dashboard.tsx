@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
   return (
     <Container mt="8">
       <VStack spacing="5">
-        <Heading>Register for HackGT X!</Heading>
+        <Heading>Register for HackGT 11!</Heading>
         <a href="https://registration.hexlabs.org">
           <Button align="center">Go!</Button>
         </a>
