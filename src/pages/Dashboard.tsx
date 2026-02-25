@@ -1,25 +1,10 @@
-import { Button, Container, Heading, VStack } from "@chakra-ui/react";
-import { useAuth } from "../contexts/AuthContext";
 import { LoadingScreen } from "@hex-labs/core";
 
-const Dashboard: React.FC = () => {
-  const { loading } = useAuth();
-
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
-  return (
-    <Container mt="8">
-      <VStack spacing="5">
-        <Heading>Register for HackGT 11!</Heading>
-        <a href="https://registration.hexlabs.org">
-          <Button align="center">Go!</Button>
-        </a>
-      </VStack>
-    </Container>
-  );
-};
+/**
+ * The dashboard route is hit briefly during auth handoffs; to avoid flashing
+ * stale marketing content, keep it as a neutral loading screen.
+ */
+const Dashboard: React.FC = () => <LoadingScreen />;
 
 export default Dashboard;
 
