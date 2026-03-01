@@ -9,7 +9,7 @@ import {
 import { Location, NavigateFunction } from "react-router-dom";
 
 export const app = initializeApp({
-  apiKey: "AIzaSyCsukUZtMkI5FD_etGfefO4Sr7fHkZM7Rg",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "auth.hexlabs.org",
 });
 
