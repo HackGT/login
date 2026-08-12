@@ -26,6 +26,7 @@ const BaseRedirector: React.FC = () => {
   // If after login we need to redirect to an app, redirect back with the id token
   if (searchParams.get("redirect")) {
     window.location.href = `${searchParams.get("redirect")}?idToken=${idToken}`;
+    return <LoadingScreen />; // while waiting for redirect
   }
 
   return <Navigate to="/dashboard" />;
