@@ -98,8 +98,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setAuthStateLoading(true);
-      console.log("AUTH STATE CHANGED!");
-      console.log(firebaseUser);
+      //console.log("AUTH STATE CHANGED!");
+      //console.log(firebaseUser);
       setUser(firebaseUser);
 
       if (firebaseUser) {
