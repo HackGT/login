@@ -41,6 +41,11 @@ export default function Dashboard() {
 					{user.email || profile?.email || "Unknown! Please report this."}
 				</p>
 
+				<p>
+					<b>User ID: </b>
+					{profile?.userId || user.uid}
+				</p>
+
 				{!profile?.name && (
 					<Text textAlign="center" fontSize="md" color="gray.500">
 						Looks like you haven't set up your profile yet. Click the link below to get started.
